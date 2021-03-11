@@ -1,0 +1,26 @@
+<p>
+    <mat-toolbar color="primary">
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <a mat-button routerLink="">Home</a>
+      <div *ngIf="showAdminBoard">
+        <a mat-button routerLink="/admin">Admin</a>
+      </div>
+      <div *ngIf="showModeratorBoard">
+        <a mat-button routerLink="/mod">Moderator</a>
+      </div>
+      <div *ngIf="isLoggedIn">
+        <a mat-button routerLink="/user">User</a>
+      </div>
+      <span class="example-spacer"></span>
+      <div *ngIf="!isLoggedIn">
+        <a mat-button routerLink="login"><mat-icon>power_settings_new</mat-icon>Login</a>
+        <a mat-button routerLink="register"><mat-icon>logout</mat-icon>Register</a>
+      </div>
+      <div *ngIf="isLoggedIn">
+        <a mat-button routerLink="profile">{{ username }}</a>
+        <a mat-button (click)="logout()"><mat-icon>logout</mat-icon>Logout</a>
+      </div>
+    </mat-toolbar>
+  </p>

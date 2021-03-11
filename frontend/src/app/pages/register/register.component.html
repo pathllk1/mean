@@ -1,0 +1,54 @@
+<mat-card class="my-card">
+
+
+    <form class="my-form" *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm"
+        novalidate>
+        <mat-card-content>
+            <mat-form-field class="full-width">
+                <mat-label>Username</mat-label>
+                <input matInput name="username" [(ngModel)]="form.username" required minlength="3" maxlength="20"
+                    #username="ngModel" />
+                <mat-error *ngIf="username.errors && f.submitted">
+                    <div *ngIf="username.errors.required">Username is required</div>
+                    <div *ngIf="username.errors.minlength">
+                        Username must be at least 3 characters
+                    </div>
+                    <div *ngIf="username.errors.maxlength">
+                        Username must be at most 20 characters
+                    </div>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label>Email</mat-label>
+                <input type="email" matInput name="email" [(ngModel)]="form.email" required email #email="ngModel" />
+                <mat-error *ngIf="email.errors && f.submitted">
+                    <div *ngIf="email.errors.required">Email is required</div>
+                    <div *ngIf="email.errors.email">
+                        Email must be a valid email address
+                    </div>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput name="password" [(ngModel)]="form.password" required minlength="6"
+                    #password="ngModel" />
+                <mat-error *ngIf="password.errors && f.submitted">
+                    <div *ngIf="password.errors.required">Password is required</div>
+                    <div *ngIf="password.errors.minlength">
+                        Password must be at least 6 characters
+                    </div>
+                </mat-error>
+            </mat-form-field>
+            <mat-card-actions>
+                <button mat-raised-button color="primary">SIGN UP</button>
+            </mat-card-actions>
+            <mat-error *ngIf="f.submitted && isSignUpFailed">
+                Signup failed!<br />{{ errorMessage }}
+            </mat-error>
+        </mat-card-content>
+    </form>
+
+    <div class="alert alert-success" *ngIf="isSuccessful">
+        Your registration is successful!
+    </div>
+</mat-card>
