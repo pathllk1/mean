@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 import {AdminService} from '../../../_services/admin.service';
 
 @Component({
@@ -7,22 +8,29 @@ import {AdminService} from '../../../_services/admin.service';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-  content: any;
+  @ViewChild('myGrid') myGrid: jqxGridComponent;
+  constructor(private adminService: AdminService) { }
+  ngAfterViewInit() {
+    this.myGrid.showloadelement();
+    this.getData();
+  }
   source: any =
     {
-      localdata: this.content,
+      localdata: null,
       datatype: 'json',
       datafields: [
         { name: '_id', type: 'string' },
         { name: 'username', type: 'string' },
         { name: 'email', type: 'string' }
-      ],
-      id: '_id',
+      ]
     };
 
     getData(): any{
       this.adminService.get_users().subscribe(
-        data=> {this.content = data}
+        data=> {
+          this.source.localdata = data;
+            this.myGrid.updatebounddata();
+        }
       )
     }
   getWidth(): any {
@@ -39,10 +47,6 @@ export class AdminComponent implements OnInit {
         { text: 'User Name', datafield: 'username', cellsalign: 'right', align: 'right' },
         { text: 'Email', datafield: 'email', align: 'right', cellsalign: 'right' }
     ];
-  constructor(private adminService: AdminService) { }
-
   ngOnInit(): void {
-    
   }
-
 }

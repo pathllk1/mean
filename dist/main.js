@@ -57,18 +57,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const _c0 = ["myGrid"];
 class AdminComponent {
     constructor(adminService) {
         this.adminService = adminService;
         this.source = {
-            localdata: this.getData(),
+            localdata: null,
             datatype: 'json',
             datafields: [
                 { name: '_id', type: 'string' },
                 { name: 'username', type: 'string' },
                 { name: 'email', type: 'string' }
-            ],
-            id: '_id',
+            ]
         };
         this.dataAdapter = new jqx.dataAdapter(this.source);
         this.columns = [
@@ -77,8 +77,15 @@ class AdminComponent {
             { text: 'Email', datafield: 'email', align: 'right', cellsalign: 'right' }
         ];
     }
+    ngAfterViewInit() {
+        this.myGrid.showloadelement();
+        this.getData();
+    }
     getData() {
-        this.adminService.get_users().subscribe(data => { return data; });
+        this.adminService.get_users().subscribe(data => {
+            this.source.localdata = data;
+            this.myGrid.updatebounddata();
+        });
     }
     getWidth() {
         if (document.body.offsetWidth < 850) {
@@ -90,21 +97,26 @@ class AdminComponent {
     }
 }
 AdminComponent.ɵfac = function AdminComponent_Factory(t) { return new (t || AdminComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_admin_service__WEBPACK_IMPORTED_MODULE_1__["AdminService"])); };
-AdminComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AdminComponent, selectors: [["app-admin"]], decls: 7, vars: 9, consts: [["mat-align-tabs", "start"], ["label", "Users"], [3, "width", "source", "columns", "pageable", "autoheight", "sortable", "altrows", "enabletooltips", "editable"], ["label", "Second"], ["label", "Third"]], template: function AdminComponent_Template(rf, ctx) { if (rf & 1) {
+AdminComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AdminComponent, selectors: [["app-admin"]], viewQuery: function AdminComponent_Query(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵviewQuery"](_c0, 1);
+    } if (rf & 2) {
+        let _t;
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵloadQuery"]()) && (ctx.myGrid = _t.first);
+    } }, decls: 8, vars: 10, consts: [["mat-align-tabs", "start"], ["label", "Users"], [3, "width", "source", "columns", "pageable", "autoheight", "sortable", "altrows", "enabletooltips", "editable", "theme"], ["myGrid", ""], ["label", "Second"], ["label", "Third"]], template: function AdminComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "mat-tab-group", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "mat-tab", 1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](2, "jqxGrid", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](2, "jqxGrid", 2, 3);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "mat-tab", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4, "Content 2");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "mat-tab", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](5, "Content 2");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "mat-tab", 4);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](6, "Content 3");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "mat-tab", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](7, "Content 3");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } if (rf & 2) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("width", ctx.getWidth())("source", ctx.dataAdapter)("columns", ctx.columns)("pageable", true)("autoheight", true)("sortable", true)("altrows", true)("enabletooltips", true)("editable", true);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("width", ctx.getWidth())("source", ctx.dataAdapter)("columns", ctx.columns)("pageable", false)("autoheight", true)("sortable", true)("altrows", true)("enabletooltips", true)("editable", true)("theme", "ui-redmond");
     } }, directives: [_angular_material_tabs__WEBPACK_IMPORTED_MODULE_2__["MatTabGroup"], _angular_material_tabs__WEBPACK_IMPORTED_MODULE_2__["MatTab"], jqwidgets_ng_jqxgrid__WEBPACK_IMPORTED_MODULE_3__["jqxGridComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJhZG1pbi5jb21wb25lbnQuY3NzIn0= */"] });
 
 
