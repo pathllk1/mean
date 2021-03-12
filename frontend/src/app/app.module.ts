@@ -12,6 +12,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatTabsModule} from '@angular/material/tabs';
 import { jqxGridModule } from 'jqwidgets-ng/jqxgrid';
 
 import { NavbarComponent } from './pages/layout/navbar/navbar.component';
@@ -49,6 +50,7 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTabsModule,
     jqxGridModule
   ],
   providers: [authInterceptorProviders],
