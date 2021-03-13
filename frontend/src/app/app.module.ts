@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -25,6 +25,7 @@ import { ModeratorComponent } from './pages/roles/moderator/moderator.component'
 import { UserComponent } from './pages/roles/user/user.component';
 
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
+import { ExpComponent } from './pages/exp/exp.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
     ProfileComponent,
     AdminComponent,
     ModeratorComponent,
-    UserComponent
+    UserComponent,
+    ExpComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +46,7 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,

@@ -10,27 +10,27 @@ module.exports = function (app) {
         next();
     });
 
-    app.post("/api/exp/list", [authJwt.verifyToken], controller.list);
+    app.post("/.netlify/functions/api/exp/list", [authJwt.verifyToken], controller.list);
 
-    app.post("/api/exp/cash_book", [authJwt.verifyToken], controller.cash_book);
+    app.post("/.netlify/functions/api/exp/cash_book", [authJwt.verifyToken], controller.cash_book);
 
-    app.post("/api/exp/proj_report", [authJwt.verifyToken], controller.proj_report);
+    app.post("/.netlify/functions/api/exp/proj_report", [authJwt.verifyToken], controller.proj_report);
 
-    app.get("/api/exp/edit/:id", [authJwt.verifyToken], controller.getid);
+    app.get("/.netlify/functions/api/exp/edit/:id", [authJwt.verifyToken], controller.getid);
 
-    app.post("/api/exp", [authJwt.verifyToken], controller.add);
-    app.post("/api/exp/trf", [authJwt.verifyToken], controller.add_trf);
+    app.post("/.netlify/functions/api/exp", [authJwt.verifyToken], controller.add);
+    app.post("/.netlify/functions/api/exp/trf", [authJwt.verifyToken], controller.add_trf);
 
-    app.post("/api/exp/edit/:id", [authJwt.verifyToken], controller.update);
+    app.post("/.netlify/functions/api/exp/edit/:id", [authJwt.verifyToken], controller.update);
 
-    app.get("/api/exp/del/:id", [authJwt.verifyToken], controller.del);
+    app.get("/.netlify/functions/api/exp/del/:id", [authJwt.verifyToken], controller.del);
 
-    app.post("/api/exp/fetch_all", [authJwt.verifyToken], controller.fetch_all);
-    app.post("/api/exp/fetch_pto_head", [authJwt.verifyToken], controller.fetch_pto_head);
-    app.post("/api/exp/fetch_dt_pto", [authJwt.verifyToken], controller.fetch_dt_pto);
-    app.post("/api/exp/fetch_dt_head", [authJwt.verifyToken], controller.fetch_dt_head);
-    app.post("/api/exp/fetch_pto", [authJwt.verifyToken], controller.fetch_pto);
-    app.post("/api/exp/fetch_head", [authJwt.verifyToken], controller.fetch_head);
-    app.post("/api/exp/fetch_dt", [authJwt.verifyToken], controller.fetch_dt);
-    app.post("/api/exp/get_head_grp", [authJwt.verifyToken], controller.get_head_grp);
+    app.post("/.netlify/functions/api/exp/fetch_all", [authJwt.verifyToken], controller.fetch_all);
+    app.post("/.netlify/functions/api/exp/fetch_pto_head", [authJwt.verifyToken], controller.fetch_pto_head);
+    app.post("/.netlify/functions/api/exp/fetch_dt_pto", [authJwt.verifyToken], controller.fetch_dt_pto);
+    app.post("/.netlify/functions/api/exp/fetch_dt_head", [authJwt.verifyToken], controller.fetch_dt_head);
+    app.post("/.netlify/functions/api/exp/fetch_pto", [authJwt.verifyToken], controller.fetch_pto);
+    app.post("/.netlify/functions/api/exp/fetch_head", [authJwt.verifyToken], controller.fetch_head);
+    app.post("/.netlify/functions/api/exp/fetch_dt", [authJwt.verifyToken], controller.fetch_dt);
+    app.post("/.netlify/functions/api/exp/get_head_grp", [authJwt.verifyToken], controller.get_head_grp);
 }

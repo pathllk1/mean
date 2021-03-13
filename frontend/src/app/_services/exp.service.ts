@@ -1,0 +1,18 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import {Exp} from '../models/exp.model';
+
+const API_URL = '/.netlify/functions/api/exp';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ExpService {
+
+  constructor(private http: HttpClient) { }
+
+  add_exp(data: Exp): Observable<any> {
+    return this.http.post(API_URL , data, { responseType: 'json' });
+  }
+}

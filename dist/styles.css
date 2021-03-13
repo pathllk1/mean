@@ -8338,7 +8338,7 @@ jqx-knob {
 .jqx-window-close-button-hover-ui-redmond{background-color:#fff; background-position:-96px -128px; background-image:url('ui-icons_217bc0_256x240.png'); cursor:pointer; width:16px; height:16px}
 /*Common Settings*/
 .jqx-widget-ui-redmond{font-family: Lucida Grande, Lucida Sans, Arial, sans-serif; font-size:13px; font-style:normal; webkit-tap-highlight-color:rgba(0,0,0,0)}
-.jqx-widget-content-ui-redmond{ font-family: Lucida Grande, Lucida Sans, Arial, sans-serif; border-color: #a6c9e2; background: #fcfdfd url('images-redmond-ui-bg_inset-hard_100_fcfdfd_1x100.png') 50% bottom repeat-x; color: #222222; font-size:13px}
+.jqx-widget-content-ui-redmond{ font-family: Lucida Grande, Lucida Sans, Arial, sans-serif; border-color: #a6c9e2; background: #fcfdfd url('ui-bg_inset-hard_100_fcfdfd_1x100.png') 50% bottom repeat-x; color: #222222; font-size:13px}
 .jqx-widget-content-ui-redmond a{color:#222}
 .jqx-widget-header-ui-redmond{font-family: Lucida Grande, Lucida Sans, Arial, sans-serif; border-color: #4297d7; background: #5c9ccc url('ui-bg_gloss-wave_55_5c9ccc_500x100.png') 50% 50% repeat-x; color: #ffffff; font-size:13px}
 .jqx-widget-header-ui-redmond a{color:#222}
@@ -8509,7 +8509,7 @@ font-weight: bold;
 .jqx-window-close-button-hover-ui-start{background-color:#fff; background-position:-96px -128px; background-image:url('ui-icons_056b93_256x240.png'); cursor:pointer; width:16px; height:16px}
 /*Common Settings*/
 .jqx-widget-ui-start{ border-color: #a6c9e2; font-size:12px; font-style:normal;}
-.jqx-widget-content-ui-start{border-color: #a6c9e2; background: #fcfdfd url('ui-bg_inset-hard_100_fcfdfd_1x100.png') 50% bottom repeat-x; color: #222222;}
+.jqx-widget-content-ui-start{border-color: #a6c9e2; background: #fcfdfd url('images-start-ui-bg_inset-hard_100_fcfdfd_1x100.png') 50% bottom repeat-x; color: #222222;}
 .jqx-widget-content-ui-start a{color:#222}
 .jqx-widget-header-ui-start{ border-color: #4297d7; background: #2191c0 url('ui-bg_gloss-wave_75_2191c0_500x100.png') 50% 50% repeat-x; color: #eaf5f7; font-size:12px}
 .jqx-widget-header-ui-start a{color:#eaf5f7}
