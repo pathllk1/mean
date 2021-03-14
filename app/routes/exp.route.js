@@ -11,6 +11,7 @@ module.exports = function (app) {
     });
 
     app.post("/.netlify/functions/api/exp/list", [authJwt.verifyToken], controller.list);
+    app.get("/.netlify/functions/api/exp/list_all", [authJwt.verifyToken], controller.list_all);
 
     app.post("/.netlify/functions/api/exp/cash_book", [authJwt.verifyToken], controller.cash_book);
 

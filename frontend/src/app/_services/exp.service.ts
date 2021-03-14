@@ -15,4 +15,8 @@ export class ExpService {
   add_exp(data: Exp): Observable<any> {
     return this.http.post(API_URL , data, { responseType: 'json' });
   }
+
+  list_all(): Observable<any> {
+    return this.http.get(API_URL + '/list_all', { responseType: 'json' });
+  }
 }

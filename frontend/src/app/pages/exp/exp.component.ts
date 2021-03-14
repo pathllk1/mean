@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExpService } from 'src/app/_services/exp.service';
+import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 
 @Component({
   selector: 'app-exp',
@@ -8,8 +9,59 @@ import { ExpService } from 'src/app/_services/exp.service';
   styleUrls: ['./exp.component.css']
 })
 export class ExpComponent implements OnInit {
+  @ViewChild('myGrid') myGrid: jqxGridComponent;
   add_pmt_form: FormGroup;
+
   constructor(public fb: FormBuilder, private expService: ExpService) { }
+
+  ngAfterViewInit() {
+    this.myGrid.showloadelement();
+    this.getData();
+  }
+
+  getData(): any{
+    this.expService.list_all().subscribe(
+      data=> {
+        this.source.localdata = data;
+          this.myGrid.updatebounddata();
+      }
+    )
+  }
+
+
+  source: any =
+    {
+      localdata: null,
+      datatype: 'json',
+      datafields: [
+        { name: '_id', type: 'string' },
+        { name: 'dt', type: 'dt' },
+        { name: 'pto', type: 'pto' },
+        { name: 'mode', type: 'mode' },
+        { name: 'head', type: 'head' },
+        { name: 'grp', type: 'grp' },
+        { name: 'amt', type: 'amt' },
+      ]
+    };
+
+    getWidth(): any {
+      if (document.body.offsetWidth < 1200) {
+        return '90%';
+      }
+  
+      return 1200;
+    }
+    dataAdapter: any = new jqx.dataAdapter(this.source);
+    columns: any[] =
+      [
+          { text: 'ID', datafield: '_id' },
+          { text: 'DATE', datafield: 'dt', cellsalign: 'right', cellsformat: 'dd-MMMM-yyyy' },
+          { text: 'PAID TO', datafield: 'pto' },
+          { text: 'MODE', datafield: 'mode' },
+          { text: 'HEAD', datafield: 'head' },
+          { text: 'GROUP', datafield: 'grp' },
+          { text: 'AMOUNT', datafield: 'amt', align: 'right' },
+      ];
 
   ngOnInit(): void {
     this.add_pmt_sru();

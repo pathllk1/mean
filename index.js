@@ -2,6 +2,7 @@ const express = require("express");
 const path = require('path');
 const serverless = require("serverless-http");
 const bodyParser = require("body-parser");
+const morgan = require('morgan');
 const dbConfig = require("./app/config/db.config");
 
 
@@ -12,6 +13,7 @@ app.use(bodyParser.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan('common'));
 
 const db = require("./app/models");
 const Role = db.role;

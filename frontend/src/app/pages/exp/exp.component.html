@@ -59,3 +59,7 @@
          </mat-card-actions>
     </mat-card>
 </form>
+
+<jqxGrid #myGrid [width]="getWidth()" [source]="dataAdapter" [columns]="columns" [pageable]="false" [autoheight]="true"
+            [sortable]="true" [altrows]="true" [enabletooltips]="true" [editable]="true" [theme]="'ui-redmond'" [filterbarmode]="'simple'" [showfilterbar]="true" [filterable]="true">
+        </jqxGrid>

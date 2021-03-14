@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! L:\ANJAN\PROJECT\MEAN\frontend\src\polyfills.ts */"hN/g");
+module.exports = __webpack_require__(/*! F:\PROJECTS\mean\frontend\src\polyfills.ts */"hN/g");
 
 
 /***/ }),

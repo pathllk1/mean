@@ -11,6 +11,16 @@ exports.list = (req, res) => {
     });
 }
 
+exports.list_all = (req, res) => {
+    Exp.find((err, docs) => {
+        if (!err) {
+            res.json(docs);
+        } else {
+            console.log('Error in retrieving Exp list: ' + err);
+        }
+    });
+}
+
 exports.cash_book = (req, res) => {
     Exp.find({ 'mode': 'CASH', 'firm': req.body.usern }, null, {sort: {'dt' : -1}} ,(err, docs) => {
         if (!err) {
