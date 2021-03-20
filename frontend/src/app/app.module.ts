@@ -14,7 +14,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatGridListModule} from '@angular/material/grid-list';
 import { jqxGridModule } from 'jqwidgets-ng/jqxgrid';
+import { jqxButtonModule } from 'jqwidgets-ng/jqxbuttons';
 
 import { NavbarComponent } from './pages/layout/navbar/navbar.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -27,6 +29,7 @@ import { UserComponent } from './pages/roles/user/user.component';
 
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { ExpComponent } from './pages/exp/exp.component';
+import { AddComponent } from './pages/exp/add/add.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,8 @@ import { ExpComponent } from './pages/exp/exp.component';
     AdminComponent,
     ModeratorComponent,
     UserComponent,
-    ExpComponent
+    ExpComponent,
+    AddComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +60,9 @@ import { ExpComponent } from './pages/exp/exp.component';
     MatInputModule,
     MatTabsModule,
     MatDialogModule,
-    jqxGridModule
+    MatGridListModule,
+    jqxGridModule,
+    jqxButtonModule
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]

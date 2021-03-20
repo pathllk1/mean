@@ -1,65 +1,13 @@
-<form [formGroup]="add_pmt_form" (ngSubmit)="submitAddPmtForm()" novalidate>
-    <mat-card>
-        <mat-form-field>
-            <input matInput placeholder="Record ID" formControlName="rid">
-            <mat-error *ngIf="handleError('rid', 'required')">
-                You must provide a <strong>Record ID</strong>
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput type="date" placeholder="Date" formControlName="dt">
-            <mat-error *ngIf="handleError('dt', 'required')">
-                You must provide a <strong>Date</strong>
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Mode" formControlName="mode">
-            <mat-error *ngIf="handleError('mode', 'required')">
-                You must provide a <strong>Mode</strong>
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Paid To" formControlName="pto">
-            <mat-error *ngIf="handleError('pto', 'required')">
-                You must provide a <strong>Paid To</strong>
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Head" formControlName="head">
-            <mat-error *ngIf="handleError('head', 'required')">
-                You must provide a <strong>Head</strong>
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Group" formControlName="grp">
-            <mat-error *ngIf="handleError('grp', 'required')">
-                You must provide a <strong>Group</strong>
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Amount" formControlName="amt">
-            <mat-error *ngIf="handleError('amt', 'required')">
-                You must provide a <strong>Amount</strong>
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Project Amount" formControlName="pamt">
-            <mat-error *ngIf="handleError('pamt', 'required')">
-                You must provide a <strong>Amount</strong>
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Purpose" formControlName="purp">
-            <mat-error *ngIf="handleError('purp', 'required')">
-                You must provide a <strong>Purpose</strong>
-            </mat-error>
-        </mat-form-field>
-        <mat-card-actions>
-            <button mat-raised-button color="warn">SUBMIT</button>
-         </mat-card-actions>
-    </mat-card>
-</form>
+<button mat-icon-button id="add_dlg" (click)="openDialog()">
+    <mat-icon>add_circle_outline</mat-icon>
+  </button>
 
+  <button mat-icon-button id="edt_dlg" (click)="openDialog()">
+    <mat-icon>mode_edit_outline</mat-icon>
+  </button>
+
+  
 <jqxGrid #myGrid [width]="getWidth()" [source]="dataAdapter" [columns]="columns" [pageable]="false" [autoheight]="true"
-            [sortable]="true" [altrows]="true" [enabletooltips]="true" [editable]="true" [theme]="'ui-redmond'" [filterbarmode]="'simple'" [showfilterbar]="true" [filterable]="true">
+            [sortable]="true" [altrows]="true" [enabletooltips]="true" [editable]="true" [theme]="'ui-redmond'" [filtermode]="'excel'" [filterable]="true"
+            [showtoolbar]="true" [rendertoolbar]="createButtonsContainers">
         </jqxGrid>
