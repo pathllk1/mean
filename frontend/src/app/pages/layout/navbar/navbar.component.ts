@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TokenStorageService } from '../../../_services/token-storage.service';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +14,12 @@ export class NavbarComponent implements OnInit {
   showAdminBoard = false;
   showModeratorBoard = false;
   username?: string;
+
+  @ViewChild('sidenav') sidenav: MatSidenav;
+  isExpanded = true;
+  showSubmenu: boolean = false;
+  isShowing = false;
+  showSubSubMenu: boolean = false;
 
   constructor(private tokenStorageService: TokenStorageService) { }
 
@@ -33,6 +40,18 @@ export class NavbarComponent implements OnInit {
   logout(): void {
     this.tokenStorageService.signOut();
     window.location.reload();
+  }
+
+  mouseenter() {
+    if (!this.isExpanded) {
+      this.isShowing = true;
+    }
+  }
+
+  mouseleave() {
+    if (!this.isExpanded) {
+      this.isShowing = false;
+    }
   }
 
 }

@@ -15,6 +15,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
 import { jqxGridModule } from 'jqwidgets-ng/jqxgrid';
 import { jqxButtonModule } from 'jqwidgets-ng/jqxbuttons';
 
@@ -61,6 +63,8 @@ import { AddComponent } from './pages/exp/add/add.component';
     MatTabsModule,
     MatDialogModule,
     MatGridListModule,
+    MatSidenavModule,
+    MatListModule,
     jqxGridModule,
     jqxButtonModule
   ],
