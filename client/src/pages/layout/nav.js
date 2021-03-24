@@ -1,41 +1,111 @@
-import React from 'react';
-import { Link } from "react-router-dom";
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import { React, useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+    Button,
+    AppBar,
+    Toolbar,
+    Typography,
+    IconButton,
+    Drawer,
+    List,
+    ListItem,
+    CssBaseline
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import MenuIcon from "@material-ui/icons/Menu";
+
+import Home from '../Home';
+import About from '../About';
+import Login from '../Login';
+
+import AuthService from "../../services/auth.service";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
     menuButton: {
-        marginRight: theme.spacing(2),
+        marginRight: theme.spacing(2)
     },
     title: {
-        flexGrow: 1,
+        marginRight: "auto"
     },
+    drawer: {
+        width: 250
+    },
+    content: {
+        padding: theme.spacing(3)
+    }
 }));
 
-export default function NavAppBar() {
+const NavAppBar = () => {
     const classes = useStyles();
+    const [open, setOpen] = useState(false);
+    const [showModeratorBoard, setshowModeratorBoard] = useState(false);
+    const [showAdminBoard, setshowAdminBoard] = useState(false);
+    const [currentUser, setcurrentUser] = useState(undefined);
 
-    return (
-        <div className={classes.root}>
-            <AppBar position="static" color='secondary'>
-                <Toolbar>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" className={classes.title}>ANJAN</Typography>
-                    <Button color='inherit' component={Link} to="/">Home</Button>
-                    <Button color='inherit' component={Link} to="/about">About</Button>
-                    <Button color="inherit" component={Link} to="/login">Login</Button>
-                </Toolbar>
-            </AppBar>
-        </div>
-    );
-}
+    useEffect(() => {
+        const user = AuthService.getCurrentUser();
+        if (user) {
+            setcurrentUser(user);
+            setshowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+            setshowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
+        }
+    });
+
+        return (
+            <Router>
+                <div>
+                    <CssBaseline />
+                    <Drawer open={open} onClose={() => setOpen(false)}>
+                        <List disablePadding className={classes.drawer} onMouseLeave={() => setOpen(false)}>
+                            <ListItem button>
+                                <Button color='inherit' component={Link} to="/">Home</Button>
+                            </ListItem>
+                            {showModeratorBoard && (
+                                <ListItem button>
+                                    <Button color='inherit' component={Link} to="/mod">Moderator</Button>
+                                </ListItem>
+                            )}
+                            {showAdminBoard && (
+                                <ListItem button>
+                                    <Button color='inherit' component={Link} to="/admin">Admin</Button>
+                                </ListItem>
+                            )}
+                            {currentUser && (
+                                <ListItem button>
+                                    <Button color='inherit' component={Link} to="/user">User</Button>
+                                </ListItem>
+                            )}
+                            <ListItem button>
+                                <Button color='inherit' component={Link} to="/about">About</Button>
+                            </ListItem>
+                        </List>
+                    </Drawer>
+                    <AppBar position="static" color="secondary">
+                        <Toolbar>
+                            <IconButton
+                                edge="start"
+                                className={classes.menuButton}
+                                color="inherit"
+                                onMouseEnter={() => setOpen(true)}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Typography variant="h6" className={classes.title}>
+                                ANJAN
+          </Typography>
+                            <Button color="inherit" component={Link} to="/login">Login</Button>
+                        </Toolbar>
+                    </AppBar>
+                    <main className={classes.content}>
+                        <Switch>
+                            <Route exact path="/" component={Home} />
+                            <Route path="/about" component={About} />
+                            <Route path="/login" component={Login} />
+                        </Switch>
+                    </main>
+                </div>
+            </Router>
+        );
+    };
+
+    export default NavAppBar;
