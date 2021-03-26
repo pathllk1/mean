@@ -1,10 +1,14 @@
 
 import { React, useState, useEffect } from "react";
-import { Grid, Paper, TextField, Typography, makeStyles, Button, Avatar } from '@material-ui/core';
+import { Grid, Paper, TextField, Typography, makeStyles, Button, Avatar, Snackbar } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import AuthService from "../services/auth.service";
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -20,9 +24,15 @@ const useStyles = makeStyles((theme) => ({
     },
     paperStyle: {
         padding: 20,
-        height: '55vh',
+        height: '60vh',
         width: 380,
         margin: '20px auto'
+    },
+    snack: {
+        width: '100%',
+        '& > * + *': {
+            marginTop: theme.spacing(2),
+        },
     }
 }));
 
@@ -34,6 +44,19 @@ const Login = () => {
     const [password, setpassword] = useState('');
     const [message, setmessage] = useState('');
     const [currentUser, setcurrentUser] = useState(undefined);
+    const [open, setOpen] = useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
@@ -41,6 +64,7 @@ const Login = () => {
             setcurrentUser(user);
         }
     });
+
 
     function onSubmit(e) {
         e.preventDefault()//blocks the postback event of the page
@@ -57,15 +81,18 @@ const Login = () => {
                     error.toString();
 
                 setmessage(resMessage);
+                handleClick();
             }
         );
     }
     return (
         <Grid>
-            <Paper elevation={10} className={classes.paperStyle}>
-                {currentUser ? (
-                    <h4>Logged in as {currentUser.username}</h4>
-                ) : (
+            {currentUser ? (
+                <Paper elevation={10} style={{ padding: 20, margin: '20px auto', width: 380, height: '10vh' }}>
+                    <h3 align='center'>Logged in as {currentUser.username}</h3>
+                </Paper>
+            ) : (
+                <Paper elevation={10} className={classes.paperStyle}>
                     <Grid align='center'>
                         <Avatar className={classes.avatar}>
                             <LockOutlinedIcon />
@@ -109,8 +136,13 @@ const Login = () => {
           </Button>
                         </form>
                     </Grid>
-                )}
-            </Paper>
+                </Paper>
+            )}
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error">
+                    {message}
+        </Alert>
+            </Snackbar>
         </Grid>
 
     )

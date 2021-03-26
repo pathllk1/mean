@@ -1,0 +1,101 @@
+<mat-toolbar color='accent' class="example-toolbar">
+    <button mat-icon-button (click)="isExpanded = !isExpanded">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="example-app-name">ANJAN</h1>
+  </mat-toolbar>
+  <mat-sidenav-container class="example-container" autosize>
+    <mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true" (mouseenter)="mouseenter()"
+      (mouseleave)="mouseleave()">
+      <mat-nav-list>
+        <mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
+          <span class="full-width" *ngIf="isExpanded || isShowing">Parent Menu</span>
+          <mat-icon mat-list-icon>home</mat-icon>
+          <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more
+          </mat-icon>
+        </mat-list-item>
+        <div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="isShowing || isExpanded">
+          <mat-list-item><a mat-button routerLink="">Home</a></mat-list-item>
+          <div *ngIf="showAdminBoard">
+            <mat-list-item><a mat-button routerLink="/admin">Admin</a></mat-list-item>
+          </div>
+          <div *ngIf="showModeratorBoard">
+            <mat-list-item><a mat-button routerLink="/mod">Moderator</a></mat-list-item>
+          </div>
+          <div *ngIf="isLoggedIn">
+            <mat-list-item><a mat-button routerLink="/user">User</a></mat-list-item>
+          </div>
+          <div *ngIf="!isLoggedIn">
+            <mat-list-item><a mat-button routerLink="login">
+                <mat-icon>power_settings_new</mat-icon>Login
+              </a></mat-list-item>
+            <mat-list-item><a mat-button routerLink="register">
+                <mat-icon>logout</mat-icon>Register
+              </a></mat-list-item>
+          </div>
+          <div *ngIf="isLoggedIn">
+            <mat-list-item><a mat-button routerLink="exp">Expenses</a></mat-list-item>
+            <mat-list-item><a mat-button routerLink="profile">{{ username }}</a></mat-list-item>
+            <mat-list-item><a mat-button (click)="logout()">
+                <mat-icon>logout</mat-icon>Logout
+              </a></mat-list-item>
+          </div>
+          <mat-list-item (click)="showSubSubMenu = !showSubSubMenu" class="parent">
+            <span class="full-width" *ngIf="isExpanded || isShowing">Nested Menu</span>
+            <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubSubMenu}" *ngIf="isExpanded || isShowing">
+              expand_more</mat-icon>
+          </mat-list-item>
+          <div class="submenu" [ngClass]="{'expanded' : showSubSubMenu}" *ngIf="isShowing || isExpanded">
+            <mat-list-item>SubSubmenu Item 1</mat-list-item>
+            <mat-list-item>SubSubmenu Item 2</mat-list-item>
+          </div>
+        </div>
+      </mat-nav-list>
+      <mat-nav-list>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <div class="example-sidenav-content">
+      <router-outlet></router-outlet>
+    </div>
+  
+  </mat-sidenav-container>
+
+
+.example-spacer {
+    flex: 1 1 auto;
+  }
+
+  .example-container {
+    height: 551px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+  }
+  .example-sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  .example-sidenav {
+     user-select: none;
+  }
+  .full-width {
+    width: 100%;
+  }
+  .menu-button {
+    transition: 300ms ease-in-out;
+    transform: rotate(0deg);
+  }
+  .menu-button.rotated {
+    transform: rotate(180deg);
+  }
+  .submenu {
+    overflow-y: hidden;
+    transition: transform 300ms ease;
+    transform: scaleY(0);
+    transform-origin: top;
+    padding-left: 30px;
+  }
+  .submenu.expanded {
+    transform: scaleY(1);
+  }

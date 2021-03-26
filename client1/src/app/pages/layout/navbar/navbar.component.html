@@ -1,0 +1,40 @@
+<mat-sidenav-container fullscreen>
+    <mat-sidenav mode="side" #sidenav opened position="start" (mouseleave)="sidenav.toggle()">
+        <a mat-button routerLink="">Home</a>
+        <div *ngIf="showAdminBoard">
+            <a mat-button routerLink="/admin">Admin</a>
+        </div>
+        <div *ngIf="showModeratorBoard">
+            <a mat-button routerLink="/mod">Moderator</a>
+        </div>
+        <div *ngIf="isLoggedIn">
+            <a mat-button routerLink="/user">User</a>
+        </div>
+        <div *ngIf="isLoggedIn">
+            <a mat-button routerLink="profile">{{ username }}</a>
+            <mat-divider></mat-divider>
+            <a mat-button routerLink="exp">Expenses</a>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar color="accent" class="mat-elevation-z8">
+            <button mat-icon-button (mouseenter)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <a mat-button routerLink="">ANJAN</a>
+            <span class="toolbar-spacer"></span>
+            <div *ngIf="!isLoggedIn">
+                <a mat-button routerLink="login">
+                    <mat-icon>power_settings_new</mat-icon>Login
+                </a>
+                <a mat-button routerLink="register">
+                    <mat-icon>logout</mat-icon>Register
+                </a>
+            </div>
+            <div *ngIf="isLoggedIn">
+                <a mat-button (click)="logout()">{{ username }}</a>
+            </div>
+        </mat-toolbar>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

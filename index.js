@@ -43,9 +43,9 @@ require("./app/routes/admin.routes")(app);
 require("./app/routes/lic.routes")(app);
 require("./app/routes/contact.route")(app);
 
-app.use(express.static(path.join(__dirname, './client/build')));
+app.use(express.static(path.join(__dirname, './dist')));
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, './client/build/index.html'))
+    res.sendFile(path.join(__dirname, './dist/index.html'))
 });
 
 function initial() {

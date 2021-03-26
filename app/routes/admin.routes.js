@@ -8,7 +8,7 @@ module.exports = function(app) {
         admin_controller.list
       );
 
-      app.get("/.netlify/functions/api/admin/get_all_user", [authJwt.verifyToken, authJwt.isAdmin], admin_controller.user_list);
+      app.get("/.netlify/functions/api/admin/get_all_user",  admin_controller.user_list);
       app.get("/api/admin/get_all_lic", [authJwt.verifyToken, authJwt.isAdmin], admin_controller.list_lic);
       app.get("/api/admin/get_all_contact", [authJwt.verifyToken, authJwt.isAdmin], admin_controller.list_contact);
       app.get("/api/admin/del_all", [authJwt.verifyToken, authJwt.isAdmin], admin_controller.del_all);

@@ -1,0 +1,11 @@
+<mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Users">
+        <jqxGrid #myGrid [width]="getWidth()" [source]="dataAdapter" [columns]="columns" [pageable]="false" [autoheight]="true"
+            [sortable]="true" [altrows]="true" [enabletooltips]="true" [editable]="true" [theme]="'ui-redmond'">
+        </jqxGrid>
+    </mat-tab>
+    <mat-tab label="Second">Content 2</mat-tab>
+    <mat-tab label="Third">Content 3</mat-tab>
+</mat-tab-group>
+
+

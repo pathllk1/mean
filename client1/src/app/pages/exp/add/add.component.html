@@ -1,0 +1,84 @@
+<mat-tab-group mat-align-tabs="start">
+    <mat-tab label="PAYMENTS">
+        <mat-card>
+            <form [formGroup]="add_pmt_form" (ngSubmit)="submitAddPmtForm()" novalidate>
+                <table>
+                    <tr>
+                        <td style="width: 550px;">
+                            <mat-form-field>
+                                <input matInput placeholder="Record ID" formControlName="rid">
+                                <mat-error *ngIf="handleError('rid', 'required')">
+                                    You must provide a <strong>Record ID</strong>
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput type="date" placeholder="Date" formControlName="dt">
+                                <mat-error *ngIf="handleError('dt', 'required')">
+                                    You must provide a <strong>Date</strong>
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Mode" formControlName="mode">
+                                <mat-error *ngIf="handleError('mode', 'required')">
+                                    You must provide a <strong>Mode</strong>
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Paid To" formControlName="pto">
+                                <mat-error *ngIf="handleError('pto', 'required')">
+                                    You must provide a <strong>Paid To</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </td>
+                        <td style="width: 550px;">
+                            <mat-form-field>
+                                <input matInput placeholder="Head" formControlName="head">
+                                <mat-error *ngIf="handleError('head', 'required')">
+                                    You must provide a <strong>Head</strong>
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Group" formControlName="grp">
+                                <mat-error *ngIf="handleError('grp', 'required')">
+                                    You must provide a <strong>Group</strong>
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Amount" formControlName="amt">
+                                <input type="hidden"  formControlName="pamt">
+                                <mat-error *ngIf="handleError('amt', 'required')">
+                                    You must provide a <strong>Amount</strong>
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Purpose" formControlName="purp">
+                                <mat-error *ngIf="handleError('purp', 'required')">
+                                    You must provide a <strong>Purpose</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="display: table-cell;">
+                            <mat-card-actions>
+                                <button type="submit" mat-raised-button color="primary">SUBMIT</button>
+                                <button type="button" mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+                            </mat-card-actions>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </mat-card>
+    </mat-tab>
+    <mat-tab label="RECEIPTS">
+
+    </mat-tab>
+    <mat-tab label="ADJUSTMENTS">
+
+    </mat-tab>
+    <mat-tab label="TRANSFERS">
+
+    </mat-tab>
+</mat-tab-group>
+    
+

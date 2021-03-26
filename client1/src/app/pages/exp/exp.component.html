@@ -1,0 +1,14 @@
+<button mat-icon-button id="add_dlg" (click)="openDialog()">
+    <mat-icon>add_circle_outline</mat-icon>
+  </button>
+
+  <button mat-icon-button id="edt_dlg" (click)="openDialog()">
+    <mat-icon>mode_edit_outline</mat-icon>
+  </button>
+
+        <mat-card class="my-card mat-elevation-z8">
+          <jqxGrid #myGrid [width]="getWidth()" [source]="dataAdapter" [columns]="columns" [pageable]="false" [autoheight]="true"
+            [sortable]="true" [altrows]="true" [enabletooltips]="true" [editable]="true" [theme]="'ui-redmond'" [filtermode]="'excel'" [filterable]="true"
+            [showtoolbar]="true" [rendertoolbar]="createButtonsContainers">
+        </jqxGrid>
+        </mat-card>
