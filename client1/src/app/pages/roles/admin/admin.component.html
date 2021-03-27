@@ -6,6 +6,32 @@
     </mat-tab>
     <mat-tab label="Second">Content 2</mat-tab>
     <mat-tab label="Third">Content 3</mat-tab>
+    <mat-tab label="SEND SMS">
+        <mat-card class="my-card">
+            <form class="my-form" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+                <mat-card-content>
+                    <mat-form-field class="full-width">
+                        <mat-label>FROM:</mat-label>
+                        <input matInput placeholder="FROM" name="frm" [(ngModel)]="form.frm" required
+                           #frm="ngModel">
+                     </mat-form-field>
+                     <mat-form-field class="full-width">
+                        <mat-label>TO:</mat-label>
+                        <input matInput placeholder="TO" name="to" [(ngModel)]="form.to" required
+                           #to="ngModel">
+                     </mat-form-field>
+                     <mat-form-field class="full-width">
+                        <mat-label>MESSAGE:</mat-label>
+                        <input matInput placeholder="MESSAGE" name="msg" [(ngModel)]="form.msg" required
+                           #msg="ngModel">
+                     </mat-form-field>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary">SEND</button>
+                 </mat-card-actions>
+            </form>
+        </mat-card>
+    </mat-tab>
 </mat-tab-group>
 
 

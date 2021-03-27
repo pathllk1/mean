@@ -34,6 +34,7 @@ import { UserComponent } from './pages/roles/user/user.component';
 import { AddComponent } from './pages/exp/add/add.component';
 
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
+import { EdtComponent } from './pages/exp/edt/edt.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
     AdminComponent,
     ModeratorComponent,
     UserComponent,
-    AddComponent
+    AddComponent,
+    EdtComponent
   ],
   imports: [
     BrowserModule,

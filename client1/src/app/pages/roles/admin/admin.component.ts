@@ -8,6 +8,11 @@ import {AdminService} from '../../../_services/admin.service';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
+  form: any = {
+    to: null,
+    frm: null,
+    msg: null
+  };
   @ViewChild('myGrid') myGrid: jqxGridComponent;
   constructor(private adminService: AdminService) { }
   ngAfterViewInit() {
@@ -48,5 +53,13 @@ export class AdminComponent implements OnInit {
         { text: 'Email', datafield: 'email', align: 'right', cellsalign: 'right' }
     ];
   ngOnInit(): void {
+  }
+
+  onSubmit(): void {
+    const { to, frm, msg } = this.form;
+    this.adminService.send_sms(to, frm, msg).subscribe(
+      data => {console.log(data)},
+      err => {console.log(err)}
+    );
   }
 }

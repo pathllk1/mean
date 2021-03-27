@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ExpService } from 'src/app/_services/exp.service';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AddComponent } from './add/add.component';
+import { EdtComponent } from './edt/edt.component';
 
 @Component({
   selector: 'app-exp',
@@ -83,11 +84,32 @@ export class ExpComponent implements OnInit {
 
   openDialog() {
     const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.minWidth = '1200px';
-      dialogConfig.minHeight = '400px';
-      const dialogRef = this.dialog.open(AddComponent, dialogConfig);
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = '1200px';
+    dialogConfig.minHeight = '400px';
+    const dialogRef = this.dialog.open(AddComponent, dialogConfig);
+  }
+
+  open_edt_Dialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = '1200px';
+    dialogConfig.minHeight = '400px';
+    
+    dialogConfig.data = {
+      rid: '1',
+      dt: '27-03-2021',
+      mode: 'id',
+      pto: 'id',
+      head: 'id',
+      grp: 'test',
+      amt: 'test',
+      pamt: 'test',
+      purp: 'test'
+    }
+    const dialogRef = this.dialog.open(EdtComponent, dialogConfig);
   }
 
   add_pmt_sru() {
@@ -109,10 +131,10 @@ export class ExpComponent implements OnInit {
 
   public handleError = (controlName: string, errorName: string) => {
     return this.add_pmt_form.controls[controlName].hasError(errorName);
-  }  
+  }
 
-  submitAddPmtForm(){
-    if(this.add_pmt_form.valid){
+  submitAddPmtForm() {
+    if (this.add_pmt_form.valid) {
       this.expService.add_exp(this.add_pmt_form.value).subscribe(res => {
         console.log(res);
         this.add_pmt_sru();

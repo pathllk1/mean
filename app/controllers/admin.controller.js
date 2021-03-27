@@ -56,6 +56,17 @@ exports.del_all = (req, res) => {
     })
 }
 
+exports.send_sms = (req, res) => {
+    const client = require('twilio')('AC4d318cf516b959acb8319b214a85cdb1', 'b360f8e331ade86b4482d8a4aab88d99');
+    client.messages
+  .create({
+     body: req.body.msg,
+     from: req.body.frm,
+     to: req.body.to
+   })
+  .then(message => console.log(message.sid));
+}
+
 exports.add_exp = (req, res) => {
     const details = new Exp();
     details.rid = req.body.rid;

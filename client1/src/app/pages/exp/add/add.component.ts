@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ExpService } from 'src/app/_services/exp.service';
 
 @Component({
@@ -8,9 +9,10 @@ import { ExpService } from 'src/app/_services/exp.service';
   styleUrls: ['./add.component.css']
 })
 export class AddComponent implements OnInit {
-
+  errorMessage = '';
+  isSavedFailed = false;
   add_pmt_form: FormGroup;
-  constructor(public fb: FormBuilder, private expService: ExpService) { }
+  constructor(public fb: FormBuilder, private expService: ExpService, private dialogRef: MatDialogRef<AddComponent>) { }
 
   ngOnInit(): void {
     this.add_pmt_sru();
@@ -25,7 +27,7 @@ export class AddComponent implements OnInit {
       head: ['', [Validators.required]],
       grp: ['', [Validators.required]],
       amt: ['', [Validators.required]],
-      pamt: ['', [Validators.required]],
+      pamt: [''],
       purp: ['', [Validators.required]],
       usern: ['anjan'],
       type: ['PMT'],
@@ -35,14 +37,20 @@ export class AddComponent implements OnInit {
 
   public handleError = (controlName: string, errorName: string) => {
     return this.add_pmt_form.controls[controlName].hasError(errorName);
-  }  
+  }
 
-  submitAddPmtForm(){
-    if(this.add_pmt_form.valid){
+  submitAddPmtForm() {
+    if (this.add_pmt_form.valid) {
       this.expService.add_exp(this.add_pmt_form.value).subscribe(res => {
         console.log(res);
         this.add_pmt_sru();
-      })
+        this.isSavedFailed = false;
+        this.dialogRef.close();
+      }, err => {
+        this.errorMessage = err.error.message;
+        this.isSavedFailed = true;
+      }
+      )
     }
   }
 
