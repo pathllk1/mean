@@ -19,6 +19,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { jqxGridModule } from 'jqwidgets-ng/jqxgrid';
 import { jqxButtonModule } from 'jqwidgets-ng/jqxbuttons';
 
@@ -71,6 +72,7 @@ import { EdtComponent } from './pages/exp/edt/edt.component';
     MatSidenavModule,
     MatListModule,
     MatDividerModule,
+    MatAutocompleteModule,
     jqxGridModule,
     jqxButtonModule
   ],

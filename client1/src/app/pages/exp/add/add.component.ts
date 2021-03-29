@@ -1,26 +1,128 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs/internal/Observable';
 import { ExpService } from 'src/app/_services/exp.service';
+import { TokenStorageService } from '../../../_services/token-storage.service';
+import { HttpErrorResponse } from '@angular/common/http';
+
+export interface autos {
+  pto: string;
+  head: string;
+  mode: string;
+  grp: string;
+}
 
 @Component({
   selector: 'app-add',
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.css']
 })
-export class AddComponent implements OnInit {
+export class AddComponent implements OnInit, OnDestroy {
   errorMessage = '';
   isSavedFailed = false;
   add_pmt_form: FormGroup;
-  constructor(public fb: FormBuilder, private expService: ExpService, private dialogRef: MatDialogRef<AddComponent>) { }
+  private subs = new Subscription();
+  options: autos[] = [];
+  filteredJSONDataOptions_pto: Observable<any[]>;
+  filteredJSONDataOptions_mode: Observable<any[]>;
+  filteredJSONDataOptions_head: Observable<any[]>;
+  filteredJSONDataOptions_grp: Observable<any[]>;
+  constructor(public fb: FormBuilder, private expService: ExpService, private dialogRef: MatDialogRef<AddComponent>, private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
     this.add_pmt_sru();
+    this.onChanges_pmt();
+
+    this.subs.add(this.expService.list_all().subscribe((data) => {
+      this.options = data;
+    },
+    (err: HttpErrorResponse) => {
+      console.log(err);
+    }));
+
+    this.filteredJSONDataOptions_pto = this.add_pmt_form.controls['pto'].valueChanges.pipe(
+      startWith(''),
+      map(value => this.json_data_filter_pto(value))
+    );
+
+    this.filteredJSONDataOptions_mode = this.add_pmt_form.controls['mode'].valueChanges.pipe(
+      startWith(''),
+      map(value => this.json_data_filter_mode(value))
+    );
+
+    this.filteredJSONDataOptions_head = this.add_pmt_form.controls['head'].valueChanges.pipe(
+      startWith(''),
+      map(value => this.json_data_filter_head(value))
+    );
+
+    this.filteredJSONDataOptions_grp = this.add_pmt_form.controls['grp'].valueChanges.pipe(
+      startWith(''),
+      map(value => this.json_data_filter_grp(value))
+    );
+  }
+
+  ngOnDestroy(): void {
+    if (this.subs) {
+      this.subs.unsubscribe();
+    }
+  }
+
+  private json_data_filter_pto(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    let newList = [];
+    this.options.forEach(element => {
+      if (element.pto.toLowerCase().indexOf(value.toLowerCase()) !== -1) {
+        newList.push({'pto': element.pto, 'head': element.head });
+      }
+    })
+    return newList;
+  }
+
+  private json_data_filter_mode(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    let newList = [];
+    this.options.forEach(element => {
+      if (element.mode.toLowerCase().indexOf(value.toLowerCase()) !== -1) {
+        newList.push({'mode': element.mode});
+      }
+    })
+    return newList;
+  }
+
+  private json_data_filter_head(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    let newList = [];
+    this.options.forEach(element => {
+      if (element.head.toLowerCase().indexOf(value.toLowerCase()) !== -1) {
+        newList.push({'head': element.head});
+      }
+    })
+    return newList;
+  }
+
+  private json_data_filter_grp(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    let newList = [];
+    this.options.forEach(element => {
+      if (element.grp.toLowerCase().indexOf(value.toLowerCase()) !== -1) {
+        newList.push({'grp': element.grp});
+      }
+    })
+    return newList;
+  }
+
+  onChanges_pmt(): void {
+    this.add_pmt_form.controls['amt'].valueChanges.subscribe(val => {
+      this.add_pmt_form.controls['pamt'].setValue(val);
+    })
   }
 
   add_pmt_sru() {
     this.add_pmt_form = this.fb.group({
-      rid: ['', [Validators.required]],
+      rid: [Date.now().toString(), [Validators.required]],
       dt: ['', [Validators.required]],
       mode: ['', [Validators.required]],
       pto: ['', [Validators.required]],
@@ -29,9 +131,9 @@ export class AddComponent implements OnInit {
       amt: ['', [Validators.required]],
       pamt: [''],
       purp: ['', [Validators.required]],
-      usern: ['anjan'],
+      usern: [this.tokenStorageService.getUser().username],
       type: ['PMT'],
-      firm: ['ANJAN'],
+      firm: [this.tokenStorageService.getUser().firm]
     })
   }
 

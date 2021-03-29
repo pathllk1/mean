@@ -1,5 +1,3 @@
-<mat-tab-group mat-align-tabs="start">
-    <mat-tab label="PAYMENTS">
         <mat-card>
             <form [formGroup]="add_pmt_form" (ngSubmit)="submitAddPmtForm()" #f="ngForm" novalidate>
                 <table>
@@ -12,7 +10,7 @@
                                 </mat-error>
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput type="date" placeholder="Date" formControlName="dt">
+                                <input matInput type="text" placeholder="Date" formControlName="dt">
                                 <mat-error *ngIf="handleError('dt', 'required')">
                                     You must provide a <strong>Date</strong>
                                 </mat-error>
@@ -27,6 +25,12 @@
                                 <input matInput placeholder="Paid To" formControlName="pto">
                                 <mat-error *ngIf="handleError('pto', 'required')">
                                     You must provide a <strong>Paid To</strong>
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="TYPE" formControlName="type">
+                                <mat-error *ngIf="handleError('type', 'required')">
+                                    You must provide a <strong>TYPE</strong>
                                 </mat-error>
                             </mat-form-field>
                         </td>
@@ -45,9 +49,14 @@
                             </mat-form-field>
                             <mat-form-field>
                                 <input matInput placeholder="Amount" formControlName="amt">
-                                <input type="hidden"  formControlName="pamt">
                                 <mat-error *ngIf="handleError('amt', 'required')">
                                     You must provide a <strong>Amount</strong>
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Project Amount" formControlName="pamt">
+                                <mat-error *ngIf="handleError('pamt', 'required')">
+                                    You must provide a <strong>Project Amount</strong>
                                 </mat-error>
                             </mat-form-field>
                             <mat-form-field>
@@ -76,17 +85,6 @@
                 </table>
             </form>
         </mat-card>
-    </mat-tab>
-    <mat-tab label="RECEIPTS">
-
-    </mat-tab>
-    <mat-tab label="ADJUSTMENTS">
-
-    </mat-tab>
-    <mat-tab label="TRANSFERS">
-
-    </mat-tab>
-</mat-tab-group>
     
 
 

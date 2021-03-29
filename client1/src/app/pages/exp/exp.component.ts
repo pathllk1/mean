@@ -3,8 +3,10 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { ExpService } from 'src/app/_services/exp.service';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import * as moment from 'moment';
 import { AddComponent } from './add/add.component';
 import { EdtComponent } from './edt/edt.component';
+import { Exp } from 'src/app/models/exp';
 
 @Component({
   selector: 'app-exp',
@@ -25,7 +27,24 @@ export class ExpComponent implements OnInit {
   getData(): any {
     this.expService.list_all().subscribe(
       data => {
-        this.source.localdata = data;
+        let xy = [];
+        for (let obj of data) {
+          let cd = {
+            _id: obj._id,
+            rid: obj.rid,
+            dt: moment(obj.dt).utc().format('DD-MM-YYYY'),
+            pto: obj.pto,
+            mode: obj.mode,
+            head: obj.head,
+            grp: obj.grp,
+            amt: obj.amt,
+            pamt: obj.pamt,
+            purp: obj.purp,
+            type: obj.type
+          }
+          xy.push(cd)
+        }
+        this.source.localdata = xy;
         this.myGrid.updatebounddata();
       }
     )
@@ -38,12 +57,15 @@ export class ExpComponent implements OnInit {
       datatype: 'json',
       datafields: [
         { name: '_id', type: 'string' },
-        { name: 'dt', type: 'dt' },
-        { name: 'pto', type: 'pto' },
-        { name: 'mode', type: 'mode' },
-        { name: 'head', type: 'head' },
-        { name: 'grp', type: 'grp' },
-        { name: 'amt', type: 'amt' },
+        { name: 'dt', type: 'string' },
+        { name: 'pto', type: 'string' },
+        { name: 'mode', type: 'string' },
+        { name: 'head', type: 'string' },
+        { name: 'grp', type: 'string' },
+        { name: 'amt', type: 'float' },
+        { name: 'pamt', type: 'float' },
+        { name: 'purp', type: 'string' },
+        { name: 'type', type: 'string' },
       ]
     };
 
@@ -54,16 +76,26 @@ export class ExpComponent implements OnInit {
 
     return 1100;
   }
+
+  getHeight(): any {
+    if (document.body.offsetHeight < 700) {
+      return '90%';
+    }
+    return 700;
+  }
   dataAdapter: any = new jqx.dataAdapter(this.source);
   columns: any[] =
     [
-      { text: 'ID', datafield: '_id' },
-      { text: 'DATE', datafield: 'dt', cellsalign: 'right', cellsformat: 'dd-MMMM-yyyy' },
+      { text: 'ID', datafield: '_id', hidden: true },
+      { text: 'DATE', datafield: 'dt' },
       { text: 'PAID TO', datafield: 'pto' },
       { text: 'MODE', datafield: 'mode' },
       { text: 'HEAD', datafield: 'head' },
       { text: 'GROUP', datafield: 'grp' },
-      { text: 'AMOUNT', datafield: 'amt', align: 'right' },
+      { text: 'AMOUNT', datafield: 'amt', align: 'right', aggregates: ['sum'] },
+      { text: 'AMOUNT', datafield: 'pamt', hidden: true },
+      { text: 'purp', datafield: 'purp', hidden: true },
+      { text: 'type', datafield: 'type', hidden: true },
     ];
 
   createButtonsContainers(statusbar: any): void {
@@ -75,6 +107,18 @@ export class ExpComponent implements OnInit {
     let edtButtonContainer = document.getElementById("edt_dlg");
     edtButtonContainer.style.cssText = 'float: left;';
     buttonsContainer.appendChild(edtButtonContainer);
+    let delButtonContainer = document.getElementById("del_dlg");
+    delButtonContainer.style.cssText = 'float: left;';
+    buttonsContainer.appendChild(delButtonContainer);
+    let xlsButtonContainer = document.getElementById("xls_export");
+    xlsButtonContainer.style.cssText = 'float: left;';
+    buttonsContainer.appendChild(xlsButtonContainer);
+    let pdfButtonContainer = document.getElementById("pdf_export");
+    pdfButtonContainer.style.cssText = 'float: left;';
+    buttonsContainer.appendChild(pdfButtonContainer);
+    let printButtonContainer = document.getElementById("print_data");
+    printButtonContainer.style.cssText = 'float: left;';
+    buttonsContainer.appendChild(printButtonContainer);
     statusbar[0].appendChild(buttonsContainer);
   }
 
@@ -89,6 +133,11 @@ export class ExpComponent implements OnInit {
     dialogConfig.minWidth = '1200px';
     dialogConfig.minHeight = '400px';
     const dialogRef = this.dialog.open(AddComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.myGrid.showloadelement();
+      this.getData();
+    });
   }
 
   open_edt_Dialog() {
@@ -97,19 +146,27 @@ export class ExpComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.minWidth = '1200px';
     dialogConfig.minHeight = '400px';
-    
+    let selectedrowindex = this.myGrid.getselectedrowindex();
+    let id = this.myGrid.getrowdata(selectedrowindex);
+
     dialogConfig.data = {
-      rid: '1',
-      dt: '27-03-2021',
-      mode: 'id',
-      pto: 'id',
-      head: 'id',
-      grp: 'test',
-      amt: 'test',
-      pamt: 'test',
-      purp: 'test'
+      rid: id._id,
+      dt: id.dt,
+      mode: id.mode,
+      pto: id.pto,
+      type: id.type,
+      head: id.head,
+      grp: id.grp,
+      amt: id.amt,
+      pamt: id.pamt,
+      purp: id.purp
     }
     const dialogRef = this.dialog.open(EdtComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.myGrid.showloadelement();
+      this.getData();
+    });
   }
 
   add_pmt_sru() {
@@ -142,4 +199,28 @@ export class ExpComponent implements OnInit {
     }
   }
 
+  excelBtnOnClick() {
+    this.myGrid.exportdata('xls', 'jqxGrid');
+  };
+
+  pdfBtnOnClick() {
+    this.myGrid.exportdata('pdf', 'jqxGrid');
+  };
+
+  print_data() {
+    let gridContent = this.myGrid.exportdata('html');
+    let newWindow = window.open('', '', 'width=800, height=500'),
+      document = newWindow.document.open(),
+      pageContent =
+        '<!DOCTYPE html>\n' +
+        '<html>\n' +
+        '<head>\n' +
+        '<meta charset="utf-8" />\n' +
+        '<title>PRINT DATA</title>\n' +
+        '</head>\n' +
+        '<body>\n' + gridContent + '\n</body>\n</html>';
+    document.write(pageContent);
+    document.close();
+    newWindow.print();
+  }
 }

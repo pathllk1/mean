@@ -19,7 +19,7 @@ const db = require("./app/models");
 const Role = db.role;
 
 db.mongoose
-  .connect(`mongodb+srv://anjan:indian@anjan.cqixs.mongodb.net/netlify?retryWrites=true&w=majority`, {
+  .connect(`mongodb+srv://anjan:indian@anjan.cqixs.mongodb.net/netlify?retryWrites=true&w=majority` || `mongodb://localhost:27017/netlify`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })

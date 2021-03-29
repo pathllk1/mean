@@ -22,7 +22,7 @@ module.exports = function (app) {
     app.post("/.netlify/functions/api/exp", [authJwt.verifyToken], controller.add);
     app.post("/.netlify/functions/api/exp/trf", [authJwt.verifyToken], controller.add_trf);
 
-    app.post("/.netlify/functions/api/exp/edit/:id", [authJwt.verifyToken], controller.update);
+    app.post("/.netlify/functions/api/exp/edit", [authJwt.verifyToken], controller.update);
 
     app.get("/.netlify/functions/api/exp/del/:id", [authJwt.verifyToken], controller.del);
 

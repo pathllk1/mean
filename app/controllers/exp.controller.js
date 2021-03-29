@@ -249,7 +249,7 @@ exports.getid = (req, res) => {
 }
 
 exports.update = (req, res) => {
-    Exp.findById(req.params.id, function (err, details) {
+    Exp.findById(req.body._id, function (err, details) {
         if (!details)
             return next(new Error('Unable To Find Exp With This Id'));
         else {

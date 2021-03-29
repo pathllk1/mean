@@ -18,13 +18,23 @@
                                 </mat-error>
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput placeholder="Mode" formControlName="mode">
+                                <input matInput placeholder="Mode" formControlName="mode" [matAutocomplete]="auto_mode">
+                                <mat-autocomplete autoActiveFirstOption #auto_mode="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredJSONDataOptions_mode | async" [value]="option.mode">
+                                      {{option.mode}}
+                                    </mat-option>
+                                  </mat-autocomplete>
                                 <mat-error *ngIf="handleError('mode', 'required')">
                                     You must provide a <strong>Mode</strong>
                                 </mat-error>
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput placeholder="Paid To" formControlName="pto">
+                                <input matInput placeholder="Paid To" formControlName="pto" [matAutocomplete]="auto_pto">
+                                <mat-autocomplete autoActiveFirstOption #auto_pto="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredJSONDataOptions_pto | async" [value]="option.pto">
+                                      {{option.pto}}
+                                    </mat-option>
+                                  </mat-autocomplete>
                                 <mat-error *ngIf="handleError('pto', 'required')">
                                     You must provide a <strong>Paid To</strong>
                                 </mat-error>
@@ -32,19 +42,29 @@
                         </td>
                         <td style="width: 550px;">
                             <mat-form-field>
-                                <input matInput placeholder="Head" formControlName="head">
+                                <input matInput placeholder="Head" formControlName="head" [matAutocomplete]="auto_head">
+                                <mat-autocomplete autoActiveFirstOption #auto_head="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredJSONDataOptions_head | async" [value]="option.head">
+                                      {{option.head}}
+                                    </mat-option>
+                                  </mat-autocomplete>
                                 <mat-error *ngIf="handleError('head', 'required')">
                                     You must provide a <strong>Head</strong>
                                 </mat-error>
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput placeholder="Group" formControlName="grp">
+                                <input matInput placeholder="Group" formControlName="grp" [matAutocomplete]="auto_grp">
+                                <mat-autocomplete autoActiveFirstOption #auto_grp="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredJSONDataOptions_grp | async" [value]="option.grp">
+                                      {{option.grp}}
+                                    </mat-option>
+                                  </mat-autocomplete>
                                 <mat-error *ngIf="handleError('grp', 'required')">
                                     You must provide a <strong>Group</strong>
                                 </mat-error>
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput placeholder="Amount" formControlName="amt">
+                                <input matInput placeholder="Amount" type="number" formControlName="amt">
                                 <input type="hidden"  formControlName="pamt">
                                 <mat-error *ngIf="handleError('amt', 'required')">
                                     You must provide a <strong>Amount</strong>
