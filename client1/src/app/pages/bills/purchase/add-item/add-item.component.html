@@ -1,0 +1,81 @@
+<mat-card>
+    <form [formGroup]="add_pmt_form" (ngSubmit)="submitAddPmtForm()" #f="ngForm" novalidate>
+        <table style="width: 100%;">
+            <tr>
+                <td colspan="2">
+                    <mat-form-field>
+                        <input matInput placeholder="ITEM NAME" formControlName="item">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field>
+                        <input matInput placeholder="HSN CODE" formControlName="hsn">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field>
+                        <input matInput placeholder="U.O.M" formControlName="uom">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field>
+                        <input matInput placeholder="RATE" type="number" step="any" formControlName="rate">
+                    </mat-form-field>
+                </td> 
+                <td>
+                    <mat-form-field>
+                        <input matInput placeholder="GST RATE" type="number" step="any" formControlName="grate">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field>
+                        <input matInput placeholder="QUANTITY" type="number" step="any" formControlName="qty">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field>
+                        <input matInput placeholder="QUANTITY IN HAND" type="number" step="any" formControlName="qtyh">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field>
+                        <input matInput placeholder="DISCOUNT RATE" type="number" step="any" formControlName="disc">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field>
+                        <input matInput placeholder="DISCOUNT AMOUNT" type="number" step="any" formControlName="discamt">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field>
+                        <input matInput placeholder="TOTAL" type="number" step="any" formControlName="total">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field>
+                        <input matInput placeholder="PROJECT" formControlName="project">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <mat-card-actions>
+                        <button type="submit" mat-raised-button color="primary">SUBMIT</button>
+                        <button type="button" mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+                    </mat-card-actions>
+                </td>
+            </tr>
+        </table>
+    </form>
+</mat-card>

@@ -24,7 +24,7 @@ module.exports = function (app) {
 
     app.post("/.netlify/functions/api/exp/edit", [authJwt.verifyToken], controller.update);
 
-    app.get("/.netlify/functions/api/exp/del/:id", [authJwt.verifyToken], controller.del);
+    app.post("/.netlify/functions/api/exp/del", [authJwt.verifyToken], controller.del);
 
     app.post("/.netlify/functions/api/exp/fetch_all", [authJwt.verifyToken], controller.fetch_all);
     app.post("/.netlify/functions/api/exp/fetch_pto_head", [authJwt.verifyToken], controller.fetch_pto_head);

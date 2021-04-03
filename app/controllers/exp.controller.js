@@ -2,7 +2,7 @@ const Exp = require("../models/EXP");
 const HEAD_GRP = require("../models/HEAD_GRP");
 
 exports.list = (req, res) => {
-    Exp.find({'firm': req.body.usern}, null , {sort: {'dt' : -1}} ,(err, docs) => {
+    Exp.find({'firm': req.body.firm}, null , {sort: {'dt' : -1}} ,(err, docs) => {
         if (!err) {
             res.json(docs);
         } else {
@@ -276,7 +276,7 @@ exports.update = (req, res) => {
 }
 
 exports.del = (req, res) => {
-    Exp.findByIdAndRemove({ _id: req.params.id }, function (err, employee) {
+    Exp.findByIdAndRemove({ _id: req.body.id }, function (err, employee) {
         if (err) res.json(err);
         else res.json('Exp Deleted Successfully');
     });

@@ -1,0 +1,12 @@
+<mat-card>
+    <form [formGroup]="add_pmt_form" (ngSubmit)="submitAddPmtForm()" #f="ngForm" novalidate>
+        <mat-card-content>
+            <h3>Are you sure, you want to delete this record?</h3>
+            <input type="hidden" formControlName="rid">
+        </mat-card-content>
+        <mat-card-actions>
+            <button type="submit" mat-raised-button color="accent">Yes</button>
+            <button type="button" mat-raised-button color="primary" mat-dialog-close>Cancel</button>
+        </mat-card-actions>
+    </form>
+</mat-card>

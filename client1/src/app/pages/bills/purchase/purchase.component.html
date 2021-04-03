@@ -1,0 +1,119 @@
+<button mat-icon-button id="add_dlg" (click)="openDialog()">
+    <mat-icon style="color:green">add_circle_outline</mat-icon>
+  </button>
+<table>
+    <tr>
+        <td style="width: 455px;">
+            <mat-card>
+                <form [formGroup]="add_pmt_form" #f="ngForm" novalidate>
+                    <table>
+                        <tr>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput placeholder="BILL NO" class="full-width" formControlName="bno">
+            
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput type="date" class="full-width" placeholder="BILL DATE" formControlName="bdate">
+            
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <mat-form-field class="full-width">
+                                    <input matInput placeholder="SUPPLIER" formControlName="supply">
+            
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <mat-form-field class="full-width">
+                                    <input matInput placeholder="ADDRESS" formControlName="addr">
+            
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput placeholder="GSTIN" formControlName="gstin">
+            
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput type="text" placeholder="STATE" formControlName="state">
+            
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                        <mat-divider></mat-divider>
+                        <tr>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput type="number" placeholder="GROSS TOTAL" formControlName="gtot">
+            
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput type="number" placeholder="DISCOUNT" formControlName="disc">
+            
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput type="number" placeholder="CGST" formControlName="cgst">
+            
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput type="number" placeholder="SGST" formControlName="sgst">
+            
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput type="number" placeholder="IGST" formControlName="igst">
+            
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput type="number" placeholder="ROUND OFF" formControlName="rof">
+            
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <mat-form-field>
+                                    <input matInput type="number" placeholder="NET TOTAL" formControlName="ntot">
+            
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </mat-card>
+        </td>
+        <td style="width: 845px;">
+            <mat-card class="mat-elevation-z8">
+                <jqxGrid #myGrid [width]="'845px'" [height]="'487px'" [source]="dataAdapter" [columns]="columns" [sortable]="true"
+                  [altrows]="true" [enabletooltips]="true" [editable]="false" [theme]="'ui-redmond'" [filtermode]="'excel'"
+                  [filterable]="true" [showtoolbar]="true" [rendertoolbar]="createButtonsContainers" [showstatusbar]="true"
+                  [showaggregates]="true">
+                </jqxGrid>
+              </mat-card>
+        </td>
+    </tr>
+</table>

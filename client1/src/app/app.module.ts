@@ -36,6 +36,9 @@ import { AddComponent } from './pages/exp/add/add.component';
 
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { EdtComponent } from './pages/exp/edt/edt.component';
+import { DelConfComponent } from './pages/alerts/del-conf/del-conf.component';
+import { PurchaseComponent } from './pages/bills/purchase/purchase.component';
+import { AddItemComponent } from './pages/bills/purchase/add-item/add-item.component';
 
 
 @NgModule({
@@ -51,7 +54,10 @@ import { EdtComponent } from './pages/exp/edt/edt.component';
     ModeratorComponent,
     UserComponent,
     AddComponent,
-    EdtComponent
+    EdtComponent,
+    DelConfComponent,
+    PurchaseComponent,
+    AddItemComponent
   ],
   imports: [
     BrowserModule,

@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { AddComponent } from './add/add.component';
 import { EdtComponent } from './edt/edt.component';
 import { Exp } from 'src/app/models/exp';
+import { DelConfComponent } from '../alerts/del-conf/del-conf.component';
 
 @Component({
   selector: 'app-exp',
@@ -16,6 +17,7 @@ import { Exp } from 'src/app/models/exp';
 export class ExpComponent implements OnInit {
   @ViewChild('myGrid') myGrid: jqxGridComponent;
   add_pmt_form: FormGroup;
+  
 
   constructor(public fb: FormBuilder, private expService: ExpService, public dialog: MatDialog) { }
 
@@ -70,19 +72,13 @@ export class ExpComponent implements OnInit {
     };
 
   getWidth(): any {
-    if (document.body.offsetWidth < 1100) {
+    if (document.body.offsetWidth < 1150) {
       return '90%';
     }
 
-    return 1100;
+    return 1150;
   }
 
-  getHeight(): any {
-    if (document.body.offsetHeight < 700) {
-      return '90%';
-    }
-    return 700;
-  }
   dataAdapter: any = new jqx.dataAdapter(this.source);
   columns: any[] =
     [
@@ -166,6 +162,32 @@ export class ExpComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.myGrid.showloadelement();
       this.getData();
+    });
+  }
+
+  open_del_dialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = false;
+    dialogConfig.minWidth = '600px';
+    dialogConfig.minHeight = '200px';
+    let selectedrowindex = this.myGrid.getselectedrowindex();
+    let id = this.myGrid.getrowdata(selectedrowindex);
+    dialogConfig.data = {
+      rid: id._id
+    }
+    const dialogRef = this.dialog.open(DelConfComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.expService.del_exp(id._id).subscribe(res => {
+          console.log(res);
+          this.myGrid.showloadelement();
+        this.getData();
+        })
+      } else {
+        console.log("No Changes");
+      }
     });
   }
 
