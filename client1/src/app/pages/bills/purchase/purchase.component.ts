@@ -4,7 +4,7 @@ import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { TokenStorageService } from '../../../_services/token-storage.service';
-import { Items, PurchaseService } from '../../../_services/bill/purchase.service';
+import { PurchaseService } from '../../../_services/bill/purchase.service';
 import { Stock } from '../../../models/stock';
 import { AddItemComponent } from './add-item/add-item.component';
 
@@ -31,6 +31,13 @@ export class PurchaseComponent implements OnInit {
     this.add_pmt_sru();
   }
 
+  getData(): any {
+    this.purchaseservice.list_reg().subscribe(res => {
+      this.source.localdata = res;
+      this.myGrid.updatebounddata();
+    })
+  }
+
   openDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -49,9 +56,11 @@ export class PurchaseComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.xy.push(result);
-        this.source.localdata = this.xy;
+        this.purchaseservice.add_stc_reg(result).subscribe(res => {
+          console.log(res);
+        });
         this.myGrid.showloadelement();
-        this.myGrid.updatebounddata();
+        this.getData();
       }
     });
   }
@@ -86,11 +95,11 @@ export class PurchaseComponent implements OnInit {
         { name: 'hsn', type: 'string' },
         { name: 'qty', type: 'string' },
         { name: 'uom', type: 'string' },
-        { name: 'rate', type: 'string' },
-        { name: 'grate', type: 'string' },
-        { name: 'total', type: 'string' },
-        { name: 'user', type: 'string' },
-        { name: 'firm', type: 'string' }
+        { name: 'rate', type: 'number' },
+        { name: 'grate', type: 'number' },
+        { name: 'total', type: 'number' },
+        { name: 'disc', type: 'number' },
+        { name: 'discamt', type: 'number' }
       ]
     };
 
@@ -98,14 +107,14 @@ export class PurchaseComponent implements OnInit {
 
   columns: any[] =
     [
-      { text: 'ITEM', datafield: 'item' },
-      { text: 'HSN', datafield: 'hsn' },
-      { text: 'RATE', datafield: 'rate' },
-      { text: 'QNTY', datafield: 'qty' },
-      { text: 'GST RATE', datafield: 'grate' },
-      { text: 'DISCOUNT', datafield: 'user' },
-      { text: 'DISCOUNT AMOUNT', datafield: 'firm', align: 'right', aggregates: ['sum'] },
-      { text: 'AMOUNT', datafield: 'total', align: 'right', aggregates: ['sum'] }
+      { text: 'ITEM', datafield: 'item', width: '28%' },
+      { text: 'HSN', datafield: 'hsn', width: '10%' },
+      { text: 'RATE', datafield: 'rate', width: '10%' },
+      { text: 'QNTY', datafield: 'qty', width: '10%' },
+      { text: 'GST RATE', datafield: 'grate', width: '10%' },
+      { text: 'DISCOUNT', datafield: 'disc', width: '10%' },
+      { text: 'DISCOUNT AMOUNT', datafield: 'discamt', align: 'right', aggregates: ['sum'], width: '10%' },
+      { text: 'AMOUNT', datafield: 'total', align: 'right', aggregates: ['sum'], width: '10%' }
     ];
 
   createButtonsContainers(statusbar: any): void {
@@ -114,7 +123,18 @@ export class PurchaseComponent implements OnInit {
     let addButtonContainer = document.getElementById("add_dlg");
     addButtonContainer.style.cssText = 'float: left;';
     buttonsContainer.appendChild(addButtonContainer);
-
+    let delButtonContainer = document.getElementById("del_dlg");
+    delButtonContainer.style.cssText = 'float: left;';
+    buttonsContainer.appendChild(delButtonContainer);
     statusbar[0].appendChild(buttonsContainer);
+  }
+
+  open_del_dialog() {
+    let selectedrowindex = this.myGrid.getselectedrowindex();
+    let id = this.myGrid.getrowid(selectedrowindex);
+    this.xy.splice(id, 1);
+    this.source.localdata = this.xy;
+    this.myGrid.showloadelement();
+    this.myGrid.updatebounddata();
   }
 }

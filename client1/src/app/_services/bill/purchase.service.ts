@@ -1,48 +1,26 @@
 import { Injectable } from '@angular/core';
-import { DexieService } from "../dexie.service";
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { Stock } from '../../models/stock';
+import { TokenStorageService } from '../token-storage.service';
 
-export interface Items {
-  item: string;
-  hsn: string;
-  qty: string;
-  uom: string;
-  rate: string;
-  grate: string;
-  total: string;
-  user: string;
-  firm: string;
-}
-
-export interface ItemsWithID extends Items {
-  id: number;
-}
-
+const API_URL = '/.netlify/functions/api/purc';
 @Injectable({
   providedIn: 'root'
 })
 
 
 export class PurchaseService {
-  table: Dexie.Table<ItemsWithID, number>;
 
-  constructor(private dexieService: DexieService) {
-    this.table = this.dexieService.table('items');
+  constructor(private http: HttpClient, private tokenStorageService: TokenStorageService) {
+   
   }
 
-  getAll() {
-    return this.table.toArray();
+  add_stc_reg(data: Stock): Observable<any> {
+    return this.http.post(API_URL + "/save", data, { responseType: 'text' });
   }
-
-  add(data) {
-    return this.table.add(data);
+  
+  list_reg(): Observable<any>{
+    return this.http.post(API_URL + "/list_reg", {responseType: 'json'})
   }
-
-  update(id, data) {
-    return this.table.update(id, data);
-  }
-
-  remove(id) {
-    return this.table.delete(id);
-  }
-
 }

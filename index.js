@@ -39,6 +39,7 @@ require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/notes.routes")(app);
 require("./app/routes/exp.route")(app);
+require("./app/routes/purc.routes")(app);
 require("./app/routes/admin.routes")(app);
 require("./app/routes/lic.routes")(app);
 require("./app/routes/contact.route")(app);

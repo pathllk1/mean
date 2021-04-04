@@ -30,6 +30,7 @@ export class AddItemComponent implements OnInit {
   ngOnInit(): void {
     this.add_pmt_sru();
     this.onChanges_qty();
+    this.onChanges_disc();
   }
 
   add_pmt_sru() {
@@ -45,9 +46,9 @@ export class AddItemComponent implements OnInit {
       uom: ['', [Validators.required]],
       rate: ['', [Validators.required]],
       grate: ['', [Validators.required]],
-      cgst: ['0', [Validators.required]],
-      sgst: ['0', [Validators.required]],
-      igst: ['0', [Validators.required]],
+      cgst: [0, [Validators.required]],
+      sgst: [0, [Validators.required]],
+      igst: [0, [Validators.required]],
       disc: ['', [Validators.required]],
       discamt: ['', [Validators.required]],
       total: ['', [Validators.required]],
@@ -70,6 +71,13 @@ export class AddItemComponent implements OnInit {
       } else {
         this.add_pmt_form.controls['total'].setValue(val * this.add_pmt_form.controls['rate'].value);
       }
+    })
+  }
+
+  onChanges_disc(): void {
+    this.add_pmt_form.controls['disc'].valueChanges.subscribe(val => {
+      this.add_pmt_form.controls['discamt'].setValue((this.add_pmt_form.controls['rate'].value * this.add_pmt_form.controls['qty'].value) * val/100);
+      this.add_pmt_form.controls['total'].setValue((this.add_pmt_form.controls['qty'].value * this.add_pmt_form.controls['rate'].value)- this.add_pmt_form.controls['discamt'].value);
     })
   }
 }

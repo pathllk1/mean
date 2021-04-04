@@ -207,6 +207,20 @@ export class AddComponent implements OnInit, OnDestroy {
   submitAddRecForm() {
     let x = this.add_rec_form.controls['amt'].value;
     this.add_rec_form.controls['amt'].setValue("-" + x);
+    this.add_rec_form.controls['pamt'].setValue("-" + x);
+
+    if (this.add_rec_form.valid) {
+      this.expService.add_exp(this.add_rec_form.value).subscribe(res => {
+        console.log(res);
+        this.add_pmt_sru();
+        this.isSavedFailed = false;
+        this.dialogRef.close();
+      }, err => {
+        this.errorMessage = err.error.message;
+        this.isSavedFailed = true;
+      }
+      )
+    }
   }
 
 }
