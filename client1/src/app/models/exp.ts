@@ -1,7 +1,7 @@
 export class Exp {
-    _id: String;
+    id: string;
     rid: String;
-    dt: Date;
+    dt: string;
     mode: String;
     pto: String;
     head: String;

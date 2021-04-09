@@ -23,4 +23,12 @@ export class PurchaseService {
   list_reg(): Observable<any>{
     return this.http.post(API_URL + "/list_reg", {responseType: 'json'})
   }
+
+  list_stc(): Observable<any>{
+    return this.http.post(API_URL + "/list", {responseType: 'json'})
+  }
+
+  get_item_by_name(item: string): Observable<any>{
+    return this.http.post(API_URL + "/get_item_by_name", {item: item}, {responseType: 'json'})
+  }
 }

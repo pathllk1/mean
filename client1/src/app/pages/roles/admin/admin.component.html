@@ -1,10 +1,57 @@
 <mat-tab-group mat-align-tabs="start">
     <mat-tab label="Users">
-        <jqxGrid #myGrid [width]="getWidth()" [source]="dataAdapter" [columns]="columns" [pageable]="false" [autoheight]="true"
-            [sortable]="true" [altrows]="true" [enabletooltips]="true" [editable]="true" [theme]="'ui-redmond'">
+        <jqxGrid #myGrid [width]="getWidth()" [source]="dataAdapter" [columns]="columns" [pageable]="false"
+            [autoheight]="true" [sortable]="true" [altrows]="true" [enabletooltips]="true" [editable]="true"
+            [theme]="'ui-redmond'">
         </jqxGrid>
     </mat-tab>
-    <mat-tab label="Second">Content 2</mat-tab>
+    <mat-tab label="FIREBASE">
+        <mat-card class="my-card" *ngIf="ngAuthService.isLoggedIn == true && ngAuthService.userState as user">
+            <h2>Hi: <strong>{{(user.displayName) ? user.displayName : 'User'}}</strong></h2>
+            <p>User ID: <strong>{{user.uid}}</strong></p>
+            <p>Email: <strong>{{user.email}}</strong></p>
+            <button mat-raised-button color="primary" (click)="ngAuthService.SignOut()">
+                Sign Out
+            </button>
+
+            <table>
+                <thead>
+                    <th>ID</th>
+                    <th>DATE</th>
+                    <th>PAID TO</th>
+                    <th>HEAD</th>
+                    <th>AMOUNT</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let exp of exps">
+                        <td>{{exp.id}}</td>
+                        <td>{{exp.dt}}</td>
+                        <td>{{exp.pto}}</td>
+                        <td>{{exp.head}}</td>
+                        <td>{{exp.amt}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-card>
+
+        <mat-card class="my-card" *ngIf="ngAuthService.isLoggedIn !== true">
+            <mat-icon mat-card-avatar>person_outline</mat-icon>
+            <mat-card-content>
+                <mat-form-field class="full-width">
+                    <mat-label>User Name</mat-label>
+                    <input matInput placeholder="User Name" #userName required>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-label>Password</mat-label>
+                    <input matInput placeholder="Password" type="password" #userPassword required>
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="primary"
+                    (click)="ngAuthService.SignIn(userName.value, userPassword.value)">LOGIN</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-tab>
     <mat-tab label="Third">Content 3</mat-tab>
     <mat-tab label="SEND SMS">
         <mat-card class="my-card">
@@ -12,26 +59,21 @@
                 <mat-card-content>
                     <mat-form-field class="full-width">
                         <mat-label>FROM:</mat-label>
-                        <input matInput placeholder="FROM" name="frm" [(ngModel)]="form.frm" required
-                           #frm="ngModel">
-                     </mat-form-field>
-                     <mat-form-field class="full-width">
+                        <input matInput placeholder="FROM" name="frm" [(ngModel)]="form.frm" required #frm="ngModel">
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
                         <mat-label>TO:</mat-label>
-                        <input matInput placeholder="TO" name="to" [(ngModel)]="form.to" required
-                           #to="ngModel">
-                     </mat-form-field>
-                     <mat-form-field class="full-width">
+                        <input matInput placeholder="TO" name="to" [(ngModel)]="form.to" required #to="ngModel">
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
                         <mat-label>MESSAGE:</mat-label>
-                        <input matInput placeholder="MESSAGE" name="msg" [(ngModel)]="form.msg" required
-                           #msg="ngModel">
-                     </mat-form-field>
+                        <input matInput placeholder="MESSAGE" name="msg" [(ngModel)]="form.msg" required #msg="ngModel">
+                    </mat-form-field>
                 </mat-card-content>
                 <mat-card-actions>
                     <button mat-raised-button color="primary">SEND</button>
-                 </mat-card-actions>
+                </mat-card-actions>
             </form>
         </mat-card>
     </mat-tab>
 </mat-tab-group>
-
-

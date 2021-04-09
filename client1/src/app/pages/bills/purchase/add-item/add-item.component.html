@@ -4,7 +4,12 @@
             <tr>
                 <td colspan="2">
                     <mat-form-field>
-                        <input matInput placeholder="ITEM NAME" formControlName="item">
+                        <input matInput placeholder="ITEM NAME" formControlName="item" [matAutocomplete]="auto_item" (blur)="onBlur_item($event)">
+                        <mat-autocomplete autoActiveFirstOption #auto_item="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredJSONDataOptions_item | async" [value]="option.item">
+                              {{option.item}}
+                            </mat-option>
+                          </mat-autocomplete>
                     </mat-form-field>
                 </td>
             </tr>
@@ -64,14 +69,19 @@
                 </td>
                 <td>
                     <mat-form-field>
-                        <input matInput placeholder="PROJECT" formControlName="project">
+                        <input matInput placeholder="PROJECT" formControlName="project" [matAutocomplete]="auto_proj">
+                        <mat-autocomplete autoActiveFirstOption #auto_proj="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredJSONDataOptions_proj | async" [value]="option.project">
+                              {{option.project}}
+                            </mat-option>
+                          </mat-autocomplete>
                     </mat-form-field>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
                     <mat-card-actions>
-                        <button type="submit" mat-raised-button color="primary">SUBMIT</button>
+                        <button type="submit" mat-raised-button color="primary" [disabled]="!add_pmt_form.valid">SUBMIT</button>
                         <button type="button" mat-raised-button color="warn" mat-dialog-close>Cancel</button>
                     </mat-card-actions>
                 </td>
