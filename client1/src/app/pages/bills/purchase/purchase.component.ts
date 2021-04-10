@@ -8,18 +8,12 @@ import { PurchaseService } from '../../../_services/bill/purchase.service';
 import { Stock } from '../../../models/stock';
 import { AddItemComponent } from './add-item/add-item.component';
 
-function findAndReplace(object,keyvalue, name) {
+function findAndReplace(object, keyvalue, name) {
   object.map(function (a) {
-      if (a.item == keyvalue) {
-          a.qty = name
-      }
+    if (a.item == keyvalue) {
+      a.qty = name
+    }
   })
-}
-
-function changeName(objArray, objId, newName) {
-  objArray.forEach(function(obj) {
-      if (obj.item === objId) obj.qty = newName;
-  });
 }
 
 @Component({
@@ -42,8 +36,22 @@ export class PurchaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.add_pmt_sru();
-    this.purchaseservice.list_stc().subscribe(res => {
-      this.stc.push(res);
+    this.purchaseservice.list_stc().subscribe((res: any) => {
+      res.forEach(element => {
+        var x = {
+          item: element.item,
+          qty: element.qty,
+          rate: element.rate,
+          grate: element.grate,
+          uom: element.uom,
+          hsn: element.hsn,
+          total: element.total,
+          user: element.user,
+          firm: element.firm
+        }
+        this.stc.push(x);
+      });
+      console.log(this.stc);
     })
   }
 
@@ -73,7 +81,7 @@ export class PurchaseComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.xy.push(result);
-        
+
         this.add_pmt_form.controls['gtot'].setValue(parseFloat(this.add_pmt_form.controls['gtot'].value) + parseFloat(result.total));
         this.add_pmt_form.controls['disc'].setValue(parseFloat(this.add_pmt_form.controls['disc'].value) + parseFloat(result.discamt));
         this.add_pmt_form.controls['cgst'].setValue(parseFloat(this.add_pmt_form.controls['cgst'].value) + parseFloat(result.cgst));
@@ -84,13 +92,22 @@ export class PurchaseComponent implements OnInit {
         this.source.localdata = this.xy;
         this.myGrid.updatebounddata();
 
-        changeName(this.stc, result.name, result.qtyh)
-        console.log(this.stc);
+        findAndReplace(this.stc, result.item, result.qtyh)
+        console.log(this.stc)
       }
     });
   }
 
-  
+  open_edt_Dialog(){
+    let selectedrowindex = this.myGrid.getselectedrowindex();
+    let id = this.myGrid.getrowdata(selectedrowindex);
+    this.xy.forEach(element => {
+        if(element.item == id.item){
+          alert("Matched");
+          return;
+        }
+    });
+  }
 
   add_pmt_sru() {
     this.add_pmt_form = this.fb.group({
@@ -149,6 +166,9 @@ export class PurchaseComponent implements OnInit {
     let addButtonContainer = document.getElementById("add_dlg");
     addButtonContainer.style.cssText = 'float: left;';
     buttonsContainer.appendChild(addButtonContainer);
+    let edtButtonContainer = document.getElementById("edt_dlg");
+    edtButtonContainer.style.cssText = 'float: left;';
+    buttonsContainer.appendChild(edtButtonContainer);
     let delButtonContainer = document.getElementById("del_dlg");
     delButtonContainer.style.cssText = 'float: left;';
     buttonsContainer.appendChild(delButtonContainer);

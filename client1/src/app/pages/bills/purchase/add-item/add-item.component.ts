@@ -36,7 +36,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<AddItemComponent>,
     @Inject(MAT_DIALOG_DATA) data,
     private purchaseservice: PurchaseService
-  ) { 
+  ) {
     this.bno = data.bno;
     this.bdate = data.bdate;
     this.supply = data.supply;
@@ -53,9 +53,9 @@ export class AddItemComponent implements OnInit, OnDestroy {
     this.subs.add(this.purchaseservice.list_reg().subscribe((data) => {
       this.options = data;
     },
-    (err: HttpErrorResponse) => {
-      console.log(err);
-    }));
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }));
     this.filteredJSONDataOptions_item = this.add_pmt_form.controls['item'].valueChanges.pipe(
       startWith(''),
       map(value => this.json_data_filter_item(value))
@@ -79,7 +79,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
     let newList = [];
     this.options.forEach(element => {
       if (element.item.toLowerCase().indexOf(value.toLowerCase()) !== -1) {
-        newList.push({'item': element.item });
+        newList.push({ 'item': element.item });
       }
     })
     return newList;
@@ -90,7 +90,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
     let newList = [];
     this.options.forEach(element => {
       if (element.project.toLowerCase().indexOf(value.toLowerCase()) !== -1) {
-        newList.push({'project': element.project });
+        newList.push({ 'project': element.project });
       }
     })
     return newList;
@@ -129,13 +129,13 @@ export class AddItemComponent implements OnInit, OnDestroy {
 
   onChanges_qty(): void {
     this.add_pmt_form.controls['qty'].valueChanges.subscribe(val => {
-      if(this.add_pmt_form.controls['rate'].value == ''){
+      if (this.add_pmt_form.controls['rate'].value == '') {
         alert("Please fill Rate First!");
       } else {
         this.add_pmt_form.controls['total'].setValue(val * this.add_pmt_form.controls['rate'].value);
-        this.add_pmt_form.controls['cgst'].setValue((this.add_pmt_form.controls['total'].value * this.add_pmt_form.controls['grate'].value /100)/2);
-        this.add_pmt_form.controls['sgst'].setValue((this.add_pmt_form.controls['total'].value * this.add_pmt_form.controls['grate'].value /100)/2);
-        this.add_pmt_form.controls['igst'].setValue(this.add_pmt_form.controls['total'].value * this.add_pmt_form.controls['grate'].value /100);
+        this.add_pmt_form.controls['cgst'].setValue((this.add_pmt_form.controls['total'].value * this.add_pmt_form.controls['grate'].value / 100) / 2);
+        this.add_pmt_form.controls['sgst'].setValue((this.add_pmt_form.controls['total'].value * this.add_pmt_form.controls['grate'].value / 100) / 2);
+        this.add_pmt_form.controls['igst'].setValue(this.add_pmt_form.controls['total'].value * this.add_pmt_form.controls['grate'].value / 100);
         this.add_pmt_form.controls['qtyh'].setValue(Number(this.qt) + parseFloat(val));
       }
     })
@@ -143,8 +143,11 @@ export class AddItemComponent implements OnInit, OnDestroy {
 
   onChanges_disc(): void {
     this.add_pmt_form.controls['disc'].valueChanges.subscribe(val => {
-      this.add_pmt_form.controls['discamt'].setValue((this.add_pmt_form.controls['rate'].value * this.add_pmt_form.controls['qty'].value) * val/100);
-      this.add_pmt_form.controls['total'].setValue((this.add_pmt_form.controls['qty'].value * this.add_pmt_form.controls['rate'].value)- this.add_pmt_form.controls['discamt'].value);
+      this.add_pmt_form.controls['discamt'].setValue((this.add_pmt_form.controls['rate'].value * this.add_pmt_form.controls['qty'].value) * val / 100);
+      var x = (this.add_pmt_form.controls['qty'].value * this.add_pmt_form.controls['rate'].value) - this.add_pmt_form.controls['discamt'].value;
+      this.add_pmt_form.controls['cgst'].setValue((x * this.add_pmt_form.controls['grate'].value / 100) / 2);
+      this.add_pmt_form.controls['sgst'].setValue((x * this.add_pmt_form.controls['grate'].value / 100) / 2);
+      this.add_pmt_form.controls['igst'].setValue(x * this.add_pmt_form.controls['grate'].value / 100);
     })
   }
 
