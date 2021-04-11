@@ -7,6 +7,7 @@ import { TokenStorageService } from '../../../_services/token-storage.service';
 import { PurchaseService } from '../../../_services/bill/purchase.service';
 import { Stock } from '../../../models/stock';
 import { AddItemComponent } from './add-item/add-item.component';
+import { EdtItemComponent } from './edt-item/edt-item.component';
 
 function findAndReplace(object, keyvalue, name) {
   object.map(function (a) {
@@ -51,7 +52,6 @@ export class PurchaseComponent implements OnInit {
         }
         this.stc.push(x);
       });
-      console.log(this.stc);
     })
   }
 
@@ -91,21 +91,43 @@ export class PurchaseComponent implements OnInit {
         this.myGrid.showloadelement();
         this.source.localdata = this.xy;
         this.myGrid.updatebounddata();
-
         findAndReplace(this.stc, result.item, result.qtyh)
-        console.log(this.stc)
       }
     });
   }
 
-  open_edt_Dialog(){
+  open_edt_Dialog() {
     let selectedrowindex = this.myGrid.getselectedrowindex();
     let id = this.myGrid.getrowdata(selectedrowindex);
-    this.xy.forEach(element => {
-        if(element.item == id.item){
-          alert("Matched");
-          return;
-        }
+    let id1 = this.myGrid.getrowid(selectedrowindex);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = '1000px';
+    dialogConfig.minHeight = '400px';
+    dialogConfig.data = {
+      dta: id,
+      auto: this.stc
+    }
+    const dialogRef = this.dialog.open(EdtItemComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.xy.splice(id1, 1);
+        this.xy.push(result);
+        console.log(this.xy)
+
+        this.add_pmt_form.controls['gtot'].setValue(parseFloat(this.add_pmt_form.controls['gtot'].value) + parseFloat(result.total) - parseFloat(id.total));
+        this.add_pmt_form.controls['disc'].setValue(parseFloat(this.add_pmt_form.controls['disc'].value) + parseFloat(result.discamt) -parseFloat(id.discamt));
+        this.add_pmt_form.controls['cgst'].setValue(parseFloat(this.add_pmt_form.controls['cgst'].value) + parseFloat(result.cgst) - parseFloat(id.cgst));
+        this.add_pmt_form.controls['sgst'].setValue(parseFloat(this.add_pmt_form.controls['sgst'].value) + parseFloat(result.sgst) - parseFloat(id.sgst));
+        this.add_pmt_form.controls['igst'].setValue(parseFloat(this.add_pmt_form.controls['igst'].value) + parseFloat(result.igst) - parseFloat(id.igst));
+        this.add_pmt_form.controls['ntot'].setValue(parseFloat(this.add_pmt_form.controls['gtot'].value) + parseFloat(this.add_pmt_form.controls['igst'].value) - parseFloat(this.add_pmt_form.controls['disc'].value));
+        this.myGrid.showloadelement();
+        this.source.localdata = this.xy;
+        this.myGrid.updatebounddata();
+        findAndReplace(this.stc, result.item, result.qtyh)
+      }
     });
   }
 
@@ -136,13 +158,24 @@ export class PurchaseComponent implements OnInit {
       datafields: [
         { name: 'item', type: 'string' },
         { name: 'hsn', type: 'string' },
-        { name: 'qty', type: 'string' },
+        { name: 'qty', type: 'number' },
+        { name: 'qtyh', type: 'string' },
         { name: 'uom', type: 'string' },
         { name: 'rate', type: 'number' },
         { name: 'grate', type: 'number' },
         { name: 'total', type: 'number' },
         { name: 'disc', type: 'number' },
-        { name: 'discamt', type: 'number' }
+        { name: 'discamt', type: 'number' },
+        { name: 'bno', type: 'string' },
+        { name: 'bdate', type: 'bdate' },
+        { name: 'type', type: 'string' },
+        { name: 'supply', type: 'string' },
+        { name: 'cgst', type: 'number' },
+        { name: 'sgst', type: 'number' },
+        { name: 'igst', type: 'number' },
+        { name: 'project', type: 'string' },
+        { name: 'firm', type: 'string' },
+        { name: 'user', type: 'string' }
       ]
     };
 
@@ -150,14 +183,26 @@ export class PurchaseComponent implements OnInit {
 
   columns: any[] =
     [
-      { text: 'ITEM', datafield: 'item', width: '28%' },
+      { text: 'ITEM', datafield: 'item', width: '26%' },
       { text: 'HSN', datafield: 'hsn', width: '10%' },
-      { text: 'RATE', datafield: 'rate', width: '10%' },
-      { text: 'QNTY', datafield: 'qty', width: '10%' },
-      { text: 'GST RATE', datafield: 'grate', width: '10%' },
-      { text: 'DISCOUNT', datafield: 'disc', width: '10%' },
-      { text: 'DISCOUNT AMOUNT', datafield: 'discamt', align: 'right', aggregates: ['sum'], width: '10%' },
-      { text: 'AMOUNT', datafield: 'total', align: 'right', aggregates: ['sum'], width: '10%' }
+      { text: 'RATE', datafield: 'rate', width: '8%' },
+      { text: 'QNTY', datafield: 'qty', width: '8%' },
+      { text: 'U.O.M', datafield: 'uom', width: '10%' },
+      { text: 'QNTYh', datafield: 'qtyh', hidden: true },
+      { text: 'GST RATE', datafield: 'grate', width: '8%' },
+      { text: 'DISCOUNT', datafield: 'disc', width: '8%' },
+      { text: 'DIS. AMOUNT', datafield: 'discamt', align: 'right', aggregates: ['sum'], width: '10%' },
+      { text: 'AMOUNT', datafield: 'total', align: 'right', aggregates: ['sum'], width: '10%' },
+      { text: 'type', datafield: 'type', hidden: true},
+      { text: 'bno', datafield: 'bno', hidden: true},
+      { text: 'bdate', datafield: 'bdate', hidden: true},
+      { text: 'supply', datafield: 'supply', hidden: true},
+      { text: 'cgst', datafield: 'cgst', hidden: true},
+      { text: 'sgst', datafield: 'sgst', hidden: true},
+      { text: 'igst', datafield: 'igst', hidden: true},
+      { text: 'project', datafield: 'project', hidden: true},
+      { text: 'firm', datafield: 'firm', hidden: true},
+      { text: 'user', datafield: 'user', hidden: true},
     ];
 
   createButtonsContainers(statusbar: any): void {
@@ -172,6 +217,11 @@ export class PurchaseComponent implements OnInit {
     let delButtonContainer = document.getElementById("del_dlg");
     delButtonContainer.style.cssText = 'float: left;';
     buttonsContainer.appendChild(delButtonContainer);
+    let saveButtonContainer = document.getElementById("save_dlg");
+    saveButtonContainer.style.cssText = 'float: left;';
+    buttonsContainer.appendChild(saveButtonContainer);
+    let src = document.getElementById("src");
+    buttonsContainer.appendChild(src);
     statusbar[0].appendChild(buttonsContainer);
   }
 
@@ -182,5 +232,13 @@ export class PurchaseComponent implements OnInit {
     this.source.localdata = this.xy;
     this.myGrid.showloadelement();
     this.myGrid.updatebounddata();
+  }
+
+  save_bill(){
+    this.xy.forEach(element => {
+      this.purchaseservice.add_stc_reg(element).subscribe(res => {
+        console.log(res);
+      })
+    });
   }
 }

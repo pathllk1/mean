@@ -152,13 +152,16 @@ export class AddItemComponent implements OnInit, OnDestroy {
   }
 
   onBlur_item(event: any): void {
-    this.purchaseservice.get_item_by_name(event.target.value).subscribe(res => {
-      this.add_pmt_form.controls['hsn'].setValue(res.hsn);
-      this.add_pmt_form.controls['grate'].setValue(res.grate);
-      this.add_pmt_form.controls['rate'].setValue(res.rate);
-      this.add_pmt_form.controls['uom'].setValue(res.uom);
-      this.add_pmt_form.controls['qtyh'].setValue(res.qty);
-      this.qt = res.qty;
-    })
+    this.xy.forEach(element => {
+      if (element.item == event.target.value) {
+        this.add_pmt_form.controls['hsn'].setValue(element.hsn);
+        this.add_pmt_form.controls['grate'].setValue(element.grate);
+        this.add_pmt_form.controls['rate'].setValue(element.rate);
+        this.add_pmt_form.controls['uom'].setValue(element.uom);
+        this.add_pmt_form.controls['qtyh'].setValue(element.qty);
+        this.qt = element.qty;
+        return;
+      }
+    });
   }
 }

@@ -1,15 +1,20 @@
-
 <button mat-icon-button id="add_dlg" (click)="openDialog()">
     <mat-icon style="color:green">add_circle_outline</mat-icon>
-  </button>
+</button>
 
-  <button mat-icon-button id="edt_dlg" (click)="open_edt_Dialog()">
+<button mat-icon-button id="edt_dlg" (click)="open_edt_Dialog()">
     <mat-icon style="color: yellow;">mode_edit_outline</mat-icon>
+</button>
+
+<button mat-icon-button id="del_dlg" (click)="open_del_dialog()">
+    <mat-icon style="color: red;">delete_forever</mat-icon>
+</button>
+
+<button mat-icon-button id="save_dlg" (click)="save_bill()" [disabled]="!add_pmt_form.valid">
+    <mat-icon style="color:rgb(135, 240, 15)">add_outline</mat-icon>
   </button>
 
-  <button mat-icon-button id="del_dlg" (click)="open_del_dialog()">
-    <mat-icon style="color: red;">delete_forever</mat-icon>
-  </button>
+  <input id="src" type="search" style="margin-top: 8px; border-color: greenyellow;">
 <table>
     <tr>
         <td style="width: 455px;">
@@ -20,13 +25,14 @@
                             <td>
                                 <mat-form-field>
                                     <input matInput placeholder="BILL NO" class="full-width" formControlName="bno">
-            
+
                                 </mat-form-field>
                             </td>
                             <td>
                                 <mat-form-field>
-                                    <input matInput type="date" class="full-width" placeholder="BILL DATE" formControlName="bdate">
-            
+                                    <input matInput type="date" class="full-width" placeholder="BILL DATE"
+                                        formControlName="bdate">
+
                                 </mat-form-field>
                             </td>
                         </tr>
@@ -34,7 +40,7 @@
                             <td colspan="2">
                                 <mat-form-field class="full-width">
                                     <input matInput placeholder="SUPPLIER" formControlName="supply">
-            
+
                                 </mat-form-field>
                             </td>
                         </tr>
@@ -42,7 +48,7 @@
                             <td colspan="2">
                                 <mat-form-field class="full-width">
                                     <input matInput placeholder="ADDRESS" formControlName="addr">
-            
+
                                 </mat-form-field>
                             </td>
                         </tr>
@@ -50,13 +56,13 @@
                             <td>
                                 <mat-form-field>
                                     <input matInput placeholder="GSTIN" formControlName="gstin">
-            
+
                                 </mat-form-field>
                             </td>
                             <td>
                                 <mat-form-field>
                                     <input matInput type="text" placeholder="STATE" formControlName="state">
-            
+
                                 </mat-form-field>
                             </td>
                         </tr>
@@ -64,50 +70,54 @@
                         <tr>
                             <td>
                                 <mat-form-field>
-                                    <input matInput type="number" step="any" placeholder="GROSS TOTAL" formControlName="gtot">
-            
+                                    <input matInput type="number" step="0.01" placeholder="GROSS TOTAL"
+                                        formControlName="gtot">
+
                                 </mat-form-field>
                             </td>
                             <td>
                                 <mat-form-field>
-                                    <input matInput type="number" step="any" placeholder="DISCOUNT" formControlName="disc">
-            
-                                </mat-form-field>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <mat-form-field>
-                                    <input matInput type="number" step="any" placeholder="CGST" formControlName="cgst">
-            
-                                </mat-form-field>
-                            </td>
-                            <td>
-                                <mat-form-field>
-                                    <input matInput type="number" step="any" placeholder="SGST" formControlName="sgst">
-            
+                                    <input matInput type="number" step="0.01" placeholder="DISCOUNT"
+                                        formControlName="disc">
+
                                 </mat-form-field>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <mat-form-field>
-                                    <input matInput type="number" step="any" placeholder="IGST" formControlName="igst">
-            
+                                    <input matInput type="number" step="0.01" placeholder="CGST" formControlName="cgst">
+
                                 </mat-form-field>
                             </td>
                             <td>
                                 <mat-form-field>
-                                    <input matInput type="number" step="any" placeholder="ROUND OFF" formControlName="rof">
-            
+                                    <input matInput type="number" step="0.01" placeholder="SGST" formControlName="sgst">
+
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput type="number" step="0.01" placeholder="IGST" formControlName="igst">
+
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput type="number" step="0.01" placeholder="ROUND OFF"
+                                        formControlName="rof">
+
                                 </mat-form-field>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
                                 <mat-form-field>
-                                    <input matInput type="number" step="any" placeholder="NET TOTAL" formControlName="ntot">
-            
+                                    <input matInput type="number" step="0.01" placeholder="NET TOTAL"
+                                        formControlName="ntot">
+
                                 </mat-form-field>
                             </td>
                         </tr>
@@ -117,12 +127,12 @@
         </td>
         <td style="width: 845px;">
             <mat-card class="mat-elevation-z8">
-                <jqxGrid #myGrid [width]="'845px'" [height]="'487px'" [source]="dataAdapter" [columns]="columns" [sortable]="true"
-                  [altrows]="true" [enabletooltips]="true" [editable]="false" [theme]="'ui-redmond'" [filtermode]="'excel'"
-                  [filterable]="true" [showtoolbar]="true" [rendertoolbar]="createButtonsContainers" [showstatusbar]="true"
-                  [showaggregates]="true">
+                <jqxGrid #myGrid [width]="'845px'" [height]="'487px'" [source]="dataAdapter" [columns]="columns"
+                    [sortable]="true" [altrows]="true" [enabletooltips]="true" [editable]="false" [theme]="'ui-redmond'"
+                    [filtermode]="'excel'" [filterable]="true" [showtoolbar]="true"
+                    [rendertoolbar]="createButtonsContainers" [showstatusbar]="true" [showaggregates]="true">
                 </jqxGrid>
-              </mat-card>
+            </mat-card>
         </td>
     </tr>
 </table>
