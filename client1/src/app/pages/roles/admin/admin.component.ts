@@ -19,6 +19,7 @@ export class AdminComponent implements OnInit {
   @ViewChild('myGrid') myGrid: jqxGridComponent;
   @ViewChild('fbexpGrid') fbexpgrid: jqxGridComponent;
   exps: Exp[];
+  expn: any = [];
   constructor(private adminService: AdminService,
     public ngAuthService: NgAuthService
   ) { }
@@ -26,7 +27,6 @@ export class AdminComponent implements OnInit {
     this.myGrid.showloadelement();
     this.getData();
 
-    
     this.getFExp();
   }
   source: any =
@@ -51,8 +51,8 @@ export class AdminComponent implements OnInit {
         { name: 'mode', type: 'string' },
         { name: 'head', type: 'string' },
         { name: 'grp', type: 'string' },
-        { name: 'amt', type: 'float' },
-        { name: 'pamt', type: 'float' },
+        { name: 'amt', type: 'string' },
+        { name: 'pamt', type: 'string' },
         { name: 'purp', type: 'string' },
         { name: 'type', type: 'string' },
       ]
@@ -107,12 +107,27 @@ export class AdminComponent implements OnInit {
 
   getFExp() {
     this.adminService.getFbExp().subscribe((data: any) => {
-      this.exps = data.map(e => {
-        return {
-          id: e.payload.doc.id,
-          ...e.payload.doc.data()
-        } as Exp;
-      })
+      data.forEach(element => {
+        var x = {
+          id: element.payload.doc.id,
+          rid: element.payload.doc.data().rid,
+          dt: element.payload.doc.data().dt,
+          mode: element.payload.doc.data().mode,
+          pto: element.payload.doc.data().pto,
+          head: element.payload.doc.data().head,
+          grp: element.payload.doc.data().grp,
+          amt: element.payload.doc.data().amt,
+          pamt: element.payload.doc.data().pamt,
+          purp: element.payload.doc.data().purp,
+          usern: element.payload.doc.data().usern,
+          type: element.payload.doc.data().type,
+          firm: element.payload.doc.data().firm
+        }
+        this.expn.push(x)
+      });
+      console.log(this.expn);
+      this.source1.localdata = this.expn;
+      this.fbexpgrid.updatebounddata();
     });
   }
 }

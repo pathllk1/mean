@@ -7,31 +7,27 @@
     </mat-tab>
     <mat-tab label="FIREBASE">
         <mat-card class="my-card" *ngIf="ngAuthService.isLoggedIn == true && ngAuthService.userState as user">
-            <h2>Hi: <strong>{{(user.displayName) ? user.displayName : 'User'}}</strong></h2>
-            <p>User ID: <strong>{{user.uid}}</strong></p>
-            <p>Email: <strong>{{user.email}}</strong></p>
-            <button mat-raised-button color="primary" (click)="ngAuthService.SignOut()">
-                Sign Out
-            </button>
-
-            <table>
-                <thead>
-                    <th>ID</th>
-                    <th>DATE</th>
-                    <th>PAID TO</th>
-                    <th>HEAD</th>
-                    <th>AMOUNT</th>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let exp of exps">
-                        <td>{{exp.id}}</td>
-                        <td>{{exp.dt}}</td>
-                        <td>{{exp.pto}}</td>
-                        <td>{{exp.head}}</td>
-                        <td>{{exp.amt}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <mat-tab-group mat-align-tabs="start">
+                <mat-tab label="USER DETAILS">
+                    <h2>Hi: <strong>{{(user.displayName) ? user.displayName : 'User'}}</strong></h2>
+                    <p>User ID: <strong>{{user.uid}}</strong></p>
+                    <p>Email: <strong>{{user.email}}</strong></p>
+                    <button mat-raised-button color="primary" (click)="ngAuthService.SignOut()">
+                        Sign Out
+                    </button>
+                </mat-tab>
+                <mat-tab label="DATABASE DETAILS">
+                    <mat-tab-group mat-align-tabs="start">
+                        <mat-tab label="EXPENSES">
+                            <jqxGrid #fbexpgrid [width]="getWidth()" [height]="'470px'" [source]="dataAdapter1"
+                                [columns]="columns1" [sortable]="true" [altrows]="true" [enabletooltips]="true"
+                                [editable]="false" [theme]="'ui-redmond'" [filtermode]="'excel'" [filterable]="true"
+                                [showtoolbar]="true" [showstatusbar]="true" [showaggregates]="true">
+                            </jqxGrid>
+                        </mat-tab>
+                    </mat-tab-group>
+                </mat-tab>
+            </mat-tab-group>
         </mat-card>
 
         <mat-card class="my-card" *ngIf="ngAuthService.isLoggedIn !== true">
