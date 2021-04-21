@@ -45,7 +45,7 @@ export class EdtItemComponent implements OnInit {
   ) { 
     this.dta = data.dta;
     this.xy = data.auto;
-    this.qt = data.dta.qtyh;
+    this.qt = data.edtqt;
     this.qt1 = data.dta.qty;
   }
 
@@ -53,6 +53,7 @@ export class EdtItemComponent implements OnInit {
     this.add_pmt_sru();
     this.onChanges_qty();
     this.onChanges_disc();
+    console.log ("qty in hand " + this.qt)
   }
 
   add_pmt_sru() {

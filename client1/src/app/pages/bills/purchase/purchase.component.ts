@@ -91,6 +91,29 @@ export class PurchaseComponent implements OnInit {
         this.myGrid.showloadelement();
         this.source.localdata = this.xy;
         this.myGrid.updatebounddata();
+        let m = 0;
+        this.stc.forEach(element => {
+          if (element.item == result.item) {
+            m = m + 1;
+          }
+        });
+        if (m > 0) {
+          console.log(m + " nos record fetched")
+        }
+        else {
+          var l = {
+            item: result.item,
+            qty: result.qtyh,
+            rate: result.rate,
+            grate: result.grate,
+            uom: result.uom,
+            hsn: result.hsn,
+            total: result.total,
+            user: result.user,
+            firm: result.firm
+          }
+          this.stc.push(l);
+        }
         findAndReplace(this.stc, result.item, result.qtyh)
       }
     });
@@ -100,35 +123,46 @@ export class PurchaseComponent implements OnInit {
     let selectedrowindex = this.myGrid.getselectedrowindex();
     let id = this.myGrid.getrowdata(selectedrowindex);
     let id1 = this.myGrid.getrowid(selectedrowindex);
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.minWidth = '1000px';
-    dialogConfig.minHeight = '400px';
-    dialogConfig.data = {
-      dta: id,
-      auto: this.stc
-    }
-    const dialogRef = this.dialog.open(EdtItemComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.xy.splice(id1, 1);
-        this.xy.push(result);
-        console.log(this.xy)
-
-        this.add_pmt_form.controls['gtot'].setValue(parseFloat(this.add_pmt_form.controls['gtot'].value) + parseFloat(result.total) - parseFloat(id.total));
-        this.add_pmt_form.controls['disc'].setValue(parseFloat(this.add_pmt_form.controls['disc'].value) + parseFloat(result.discamt) -parseFloat(id.discamt));
-        this.add_pmt_form.controls['cgst'].setValue(parseFloat(this.add_pmt_form.controls['cgst'].value) + parseFloat(result.cgst) - parseFloat(id.cgst));
-        this.add_pmt_form.controls['sgst'].setValue(parseFloat(this.add_pmt_form.controls['sgst'].value) + parseFloat(result.sgst) - parseFloat(id.sgst));
-        this.add_pmt_form.controls['igst'].setValue(parseFloat(this.add_pmt_form.controls['igst'].value) + parseFloat(result.igst) - parseFloat(id.igst));
-        this.add_pmt_form.controls['ntot'].setValue(parseFloat(this.add_pmt_form.controls['gtot'].value) + parseFloat(this.add_pmt_form.controls['igst'].value) - parseFloat(this.add_pmt_form.controls['disc'].value));
-        this.myGrid.showloadelement();
-        this.source.localdata = this.xy;
-        this.myGrid.updatebounddata();
-        findAndReplace(this.stc, result.item, result.qtyh)
+    let edtqt = 0;
+    this.stc.forEach(element => {
+      if(element.item == id.item){
+        edtqt = element.qty;
       }
     });
+    if (selectedrowindex > -1) {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.minWidth = '1000px';
+      dialogConfig.minHeight = '400px';
+      dialogConfig.data = {
+        dta: id,
+        auto: this.stc,
+        edtqt: edtqt
+      }
+      const dialogRef = this.dialog.open(EdtItemComponent, dialogConfig);
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.xy.splice(id1, 1);
+          this.xy.push(result);
+          console.log(this.xy)
+
+          this.add_pmt_form.controls['gtot'].setValue(parseFloat(this.add_pmt_form.controls['gtot'].value) + parseFloat(result.total) - parseFloat(id.total));
+          this.add_pmt_form.controls['disc'].setValue(parseFloat(this.add_pmt_form.controls['disc'].value) + parseFloat(result.discamt) - parseFloat(id.discamt));
+          this.add_pmt_form.controls['cgst'].setValue(parseFloat(this.add_pmt_form.controls['cgst'].value) + parseFloat(result.cgst) - parseFloat(id.cgst));
+          this.add_pmt_form.controls['sgst'].setValue(parseFloat(this.add_pmt_form.controls['sgst'].value) + parseFloat(result.sgst) - parseFloat(id.sgst));
+          this.add_pmt_form.controls['igst'].setValue(parseFloat(this.add_pmt_form.controls['igst'].value) + parseFloat(result.igst) - parseFloat(id.igst));
+          this.add_pmt_form.controls['ntot'].setValue(parseFloat(this.add_pmt_form.controls['gtot'].value) + parseFloat(this.add_pmt_form.controls['igst'].value) - parseFloat(this.add_pmt_form.controls['disc'].value));
+          this.myGrid.showloadelement();
+          this.source.localdata = this.xy;
+          this.myGrid.updatebounddata();
+          findAndReplace(this.stc, result.item, result.qtyh)
+        }
+      });
+    } else {
+      alert("Please select a Data first!");
+    }
   }
 
   add_pmt_sru() {
@@ -193,48 +227,36 @@ export class PurchaseComponent implements OnInit {
       { text: 'DISCOUNT', datafield: 'disc', width: '8%' },
       { text: 'DIS. AMOUNT', datafield: 'discamt', align: 'right', aggregates: ['sum'], width: '10%' },
       { text: 'AMOUNT', datafield: 'total', align: 'right', aggregates: ['sum'], width: '10%' },
-      { text: 'type', datafield: 'type', hidden: true},
-      { text: 'bno', datafield: 'bno', hidden: true},
-      { text: 'bdate', datafield: 'bdate', hidden: true},
-      { text: 'supply', datafield: 'supply', hidden: true},
-      { text: 'cgst', datafield: 'cgst', hidden: true},
-      { text: 'sgst', datafield: 'sgst', hidden: true},
-      { text: 'igst', datafield: 'igst', hidden: true},
-      { text: 'project', datafield: 'project', hidden: true},
-      { text: 'firm', datafield: 'firm', hidden: true},
-      { text: 'user', datafield: 'user', hidden: true},
+      { text: 'type', datafield: 'type', hidden: true },
+      { text: 'bno', datafield: 'bno', hidden: true },
+      { text: 'bdate', datafield: 'bdate', hidden: true },
+      { text: 'supply', datafield: 'supply', hidden: true },
+      { text: 'cgst', datafield: 'cgst', hidden: true },
+      { text: 'sgst', datafield: 'sgst', hidden: true },
+      { text: 'igst', datafield: 'igst', hidden: true },
+      { text: 'project', datafield: 'project', hidden: true },
+      { text: 'firm', datafield: 'firm', hidden: true },
+      { text: 'user', datafield: 'user', hidden: true },
     ];
 
   createButtonsContainers(statusbar: any): void {
-    let buttonsContainer = document.createElement('div');
-    buttonsContainer.style.cssText = 'overflow: hidden; position: relative;';
-    let addButtonContainer = document.getElementById("add_dlg");
-    addButtonContainer.style.cssText = 'float: left;';
-    buttonsContainer.appendChild(addButtonContainer);
-    let edtButtonContainer = document.getElementById("edt_dlg");
-    edtButtonContainer.style.cssText = 'float: left;';
-    buttonsContainer.appendChild(edtButtonContainer);
-    let delButtonContainer = document.getElementById("del_dlg");
-    delButtonContainer.style.cssText = 'float: left;';
-    buttonsContainer.appendChild(delButtonContainer);
-    let saveButtonContainer = document.getElementById("save_dlg");
-    saveButtonContainer.style.cssText = 'float: left;';
-    buttonsContainer.appendChild(saveButtonContainer);
-    let src = document.getElementById("src");
-    buttonsContainer.appendChild(src);
-    statusbar[0].appendChild(buttonsContainer);
+    statusbar[0].appendChild(document.getElementById('tbar'));
   }
 
   open_del_dialog() {
     let selectedrowindex = this.myGrid.getselectedrowindex();
     let id = this.myGrid.getrowid(selectedrowindex);
-    this.xy.splice(id, 1);
-    this.source.localdata = this.xy;
-    this.myGrid.showloadelement();
-    this.myGrid.updatebounddata();
+    if (selectedrowindex > -1) {
+      this.xy.splice(id, 1);
+      this.source.localdata = this.xy;
+      this.myGrid.showloadelement();
+      this.myGrid.updatebounddata();
+    }else{
+      alert("Please select a Data first!");
+    }
   }
 
-  save_bill(){
+  save_bill() {
     this.xy.forEach(element => {
       this.purchaseservice.add_stc_reg(element).subscribe(res => {
         console.log(res);

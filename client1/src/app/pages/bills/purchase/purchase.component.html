@@ -1,20 +1,31 @@
-<button mat-icon-button id="add_dlg" (click)="openDialog()">
-    <mat-icon style="color:green">add_circle_outline</mat-icon>
-</button>
-
-<button mat-icon-button id="edt_dlg" (click)="open_edt_Dialog()">
-    <mat-icon style="color: yellow;">mode_edit_outline</mat-icon>
-</button>
-
-<button mat-icon-button id="del_dlg" (click)="open_del_dialog()">
-    <mat-icon style="color: red;">delete_forever</mat-icon>
-</button>
-
-<button mat-icon-button id="save_dlg" (click)="save_bill()" [disabled]="!add_pmt_form.valid">
-    <mat-icon style="color:rgb(135, 240, 15)">add_outline</mat-icon>
-  </button>
-
-  <input id="src" type="search" style="margin-top: 8px; border-color: greenyellow;">
+<table id="tbar">
+    <tr>
+        <td>
+            <div style="overflow: hidden; position: relative;">
+                <button mat-icon-button id="add_dlg" (click)="openDialog()">
+                    <mat-icon style="color:green">add_circle_outline</mat-icon>
+                </button>
+                
+                <button mat-icon-button id="edt_dlg" (click)="open_edt_Dialog()">
+                    <mat-icon style="color: yellow;">mode_edit_outline</mat-icon>
+                </button>
+                
+                <button mat-icon-button id="del_dlg" (click)="open_del_dialog()">
+                    <mat-icon style="color: red;">delete_forever</mat-icon>
+                </button>
+                
+                <button mat-icon-button id="save_dlg" (click)="save_bill()" [disabled]="!add_pmt_form.valid">
+                    <mat-icon style="color:rgb(135, 240, 15)">add_outline</mat-icon>
+                  </button>
+            </div>
+        </td>
+        <td>
+            <div style="overflow: hidden; position: relative;">
+                <input id="src" type="search" style="border-color: greenyellow;">
+            </div>
+        </td>
+    </tr>
+</table>
 <table>
     <tr>
         <td style="width: 455px;">
