@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ListBillComponent } from './pages/bills/purchase/list-bill/list-bill.component';
 import { PurchaseComponent } from './pages/bills/purchase/purchase.component';
 import { ExpComponent } from './pages/exp/exp.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'admin', component: AdminComponent },
   {path: 'exp', component: ExpComponent},
   {path: 'purc', component: PurchaseComponent},
+  {path: 'purc_list', component: ListBillComponent},
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 

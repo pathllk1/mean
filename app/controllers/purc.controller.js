@@ -1,3 +1,4 @@
+const BILLS = require("../models/bills");
 const STOCK = require("../models/stock");
 const STOCK_REG = require("../models/stock_reg");
 
@@ -7,6 +8,16 @@ exports.list = (req, res) => {
             res.json(docs)
         } else {
             console.log('Error in retrieving STOCK list: ' + err);
+        }
+    });
+}
+
+exports.list_bill = (req, res) => {
+    BILLS.find((err, docs) => {
+        if (!err) {
+            res.json(docs)
+        } else {
+            console.log('Error in retrieving BILL list: ' + err);
         }
     });
 }
@@ -47,6 +58,20 @@ exports.save = (req, res) => {
     } else {
         updateRecord(req, res);
     }
+}
+
+exports.save_bill = (req, res) => {
+    const p = new BILLS(req.body);
+    p.save
+    p.save((err, doc) => {
+        if (!err)
+            {
+                res.send("Data Saved Successfully");
+            }
+        else {
+            res.send("Error in Data Saving: " + err);
+        }
+    });
 }
 
 function insertRecord(req, res) {
@@ -99,6 +124,8 @@ function insertRecord(req, res) {
             }
         })
 }
+
+
 
 function updateRecord(req, res) {
     STOCK.updateOne({ item: req.body.item },

@@ -46,6 +46,7 @@ import { DelConfComponent } from './pages/alerts/del-conf/del-conf.component';
 import { PurchaseComponent } from './pages/bills/purchase/purchase.component';
 import { AddItemComponent } from './pages/bills/purchase/add-item/add-item.component';
 import { EdtItemComponent } from './pages/bills/purchase/edt-item/edt-item.component';
+import { ListBillComponent } from './pages/bills/purchase/list-bill/list-bill.component';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { EdtItemComponent } from './pages/bills/purchase/edt-item/edt-item.compo
     DelConfComponent,
     PurchaseComponent,
     AddItemComponent,
-    EdtItemComponent
+    EdtItemComponent,
+    ListBillComponent
   ],
   imports: [
     BrowserModule,

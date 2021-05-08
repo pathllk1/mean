@@ -1,16 +1,17 @@
+
 <table id="tbar">
     <tr>
         <td>
             <div style="overflow: hidden; position: relative;">
-                <button mat-icon-button id="add_dlg" (click)="openDialog()">
+                <button mat-icon-button id="add_dlg1" (click)="openDialog()">
                     <mat-icon style="color:green">add_circle_outline</mat-icon>
                 </button>
                 
-                <button mat-icon-button id="edt_dlg" (click)="open_edt_Dialog()">
+                <button mat-icon-button id="edt_dlg1" (click)="open_edt_Dialog()">
                     <mat-icon style="color: yellow;">mode_edit_outline</mat-icon>
                 </button>
                 
-                <button mat-icon-button id="del_dlg" (click)="open_del_dialog()">
+                <button mat-icon-button id="del_dlg1" (click)="open_del_dialog()">
                     <mat-icon style="color: red;">delete_forever</mat-icon>
                 </button>
                 
@@ -21,7 +22,7 @@
         </td>
         <td>
             <div style="overflow: hidden; position: relative;">
-                <input id="src" type="search" style="border-color: greenyellow;">
+                <input id="src" type="search" style="border-color: greenyellow;" (keydown)="onKeyDownsrc($event)">
             </div>
         </td>
     </tr>
@@ -50,15 +51,19 @@
                         <tr>
                             <td colspan="2">
                                 <mat-form-field class="full-width">
-                                    <input matInput placeholder="SUPPLIER" formControlName="supply">
-
+                                    <input matInput placeholder="SUPPLIER" formControlName="supply" [matAutocomplete]="auto_supply" (blur)="onBlur_supply($event)" id="supply">
+                                    <mat-autocomplete autoActiveFirstOption #auto_supply="matAutocomplete">
+                                        <mat-option *ngFor="let option of filteredJSONDataOptions_supply | async" [value]="option.supply">
+                                          {{option.supply}}
+                                        </mat-option>
+                                      </mat-autocomplete>
                                 </mat-form-field>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
                                 <mat-form-field class="full-width">
-                                    <input matInput placeholder="ADDRESS" formControlName="addr">
+                                    <input matInput placeholder="ADDRESS" formControlName="addr" (keydown)="onKeyDownEvent($event)">
 
                                 </mat-form-field>
                             </td>
@@ -66,13 +71,13 @@
                         <tr>
                             <td>
                                 <mat-form-field>
-                                    <input matInput placeholder="GSTIN" formControlName="gstin">
+                                    <input matInput placeholder="GSTIN" formControlName="gstin" id="gstin">
 
                                 </mat-form-field>
                             </td>
                             <td>
                                 <mat-form-field>
-                                    <input matInput type="text" placeholder="STATE" formControlName="state">
+                                    <input matInput type="text" placeholder="STATE" formControlName="state" (keydown)="onKeyDownEvent($event)">
 
                                 </mat-form-field>
                             </td>

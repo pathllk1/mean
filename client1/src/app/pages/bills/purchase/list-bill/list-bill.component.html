@@ -1,0 +1,19 @@
+<mat-card class="mat-elevation-z8">
+    <jqxGrid #myGrid [width]="'1200px'" [height]="'487px'" [source]="dataAdapter" [columns]="columns" [sortable]="true"
+        [altrows]="true" [enabletooltips]="true" [editable]="false" [theme]="'ui-redmond'" [filtermode]="'excel'"
+        [filterable]="true" [showtoolbar]="true" [rendertoolbar]="createButtonsContainers" [showstatusbar]="true"
+        [showaggregates]="true">
+    </jqxGrid>
+</mat-card>
+<table id="tbar1">
+    <tr>
+        <td>
+            <a mat-icon-button id="add_dlg2" routerLink="/purc"><mat-icon style="color:green">add_circle_outline</mat-icon></a>
+        </td>
+        <td>
+            <div style="overflow: hidden; position: relative;">
+                <input id="src" type="search" style="border-color: greenyellow;">
+            </div>
+        </td>
+    </tr>
+</table>

@@ -15,4 +15,6 @@ module.exports = function (app) {
     app.post("/.netlify/functions/api/purc/get_item", [authJwt.verifyToken], controller.get_item);
     app.post("/.netlify/functions/api/purc/get_item_by_name", [authJwt.verifyToken], controller.get_item_by_name);
     app.post("/.netlify/functions/api/purc/save", [authJwt.verifyToken], controller.save);
+    app.post("/.netlify/functions/api/purc/save_bill", [authJwt.verifyToken], controller.save_bill);
+    app.post("/.netlify/functions/api/purc/list_bill", [authJwt.verifyToken], controller.list_bill);
 }

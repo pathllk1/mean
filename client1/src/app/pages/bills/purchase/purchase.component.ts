@@ -3,11 +3,21 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+import { map, startWith } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
+
 import { TokenStorageService } from '../../../_services/token-storage.service';
 import { PurchaseService } from '../../../_services/bill/purchase.service';
 import { Stock } from '../../../models/stock';
 import { AddItemComponent } from './add-item/add-item.component';
 import { EdtItemComponent } from './edt-item/edt-item.component';
+
+import * as $ from 'jquery';
+
+export interface autos {
+  supply: string;
+}
 
 function findAndReplace(object, keyvalue, name) {
   object.map(function (a) {
@@ -29,6 +39,10 @@ export class PurchaseComponent implements OnInit {
   add_pmt_form: FormGroup;
   xy: any = [];
   stc: any = [];
+  bils: any = [];
+  private subs = new Subscription();
+  options: autos[] = [];
+  filteredJSONDataOptions_supply: Observable<any[]>;
   constructor(public fb: FormBuilder,
     private tokenStorageService: TokenStorageService,
     private purchaseservice: PurchaseService,
@@ -53,6 +67,45 @@ export class PurchaseComponent implements OnInit {
         this.stc.push(x);
       });
     })
+    this.purchaseservice.list_bill().subscribe((res: any) => {
+      res.forEach(element => {
+        var x = {
+          supply: element.supply,
+          addr: element.addr,
+          gstin: element.gstin,
+          state: element.state
+        }
+        this.bils.push(x);
+      });
+    })
+
+    this.subs.add(this.options = this.bils)
+    this.filteredJSONDataOptions_supply = this.add_pmt_form.controls['supply'].valueChanges.pipe(
+      startWith(''),
+      map(value => this.json_data_filter_supply(value))
+    );
+  }
+
+  private json_data_filter_supply(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    let newList = [];
+    this.options.forEach(element => {
+      if (element.supply.toLowerCase().indexOf(value.toLowerCase()) !== -1) {
+        newList.push({ 'supply': element.supply });
+      }
+    })
+    return newList;
+  }
+
+  onBlur_supply(event: any): void {
+    this.bils.forEach(element => {
+      if(element.supply == event.target.value){
+        this.add_pmt_form.controls['addr'].setValue(element.addr);
+        this.add_pmt_form.controls['gstin'].setValue(element.gstin);
+        this.add_pmt_form.controls['state'].setValue(element.state);
+        return;
+      }
+    });
   }
 
   getData(): any {
@@ -116,6 +169,7 @@ export class PurchaseComponent implements OnInit {
         }
         findAndReplace(this.stc, result.item, result.qtyh)
       }
+      document.getElementById("src").focus();
     });
   }
 
@@ -159,6 +213,7 @@ export class PurchaseComponent implements OnInit {
           this.myGrid.updatebounddata();
           findAndReplace(this.stc, result.item, result.qtyh)
         }
+        document.getElementById("src").focus();
       });
     } else {
       alert("Please select a Data first!");
@@ -217,15 +272,15 @@ export class PurchaseComponent implements OnInit {
 
   columns: any[] =
     [
-      { text: 'ITEM', datafield: 'item', width: '26%' },
+      { text: 'ITEM', datafield: 'item', width: '20%' },
       { text: 'HSN', datafield: 'hsn', width: '10%' },
       { text: 'RATE', datafield: 'rate', width: '8%' },
       { text: 'QNTY', datafield: 'qty', width: '8%' },
       { text: 'U.O.M', datafield: 'uom', width: '10%' },
       { text: 'QNTYh', datafield: 'qtyh', hidden: true },
-      { text: 'GST RATE', datafield: 'grate', width: '8%' },
-      { text: 'DISCOUNT', datafield: 'disc', width: '8%' },
-      { text: 'DIS. AMOUNT', datafield: 'discamt', align: 'right', aggregates: ['sum'], width: '10%' },
+      { text: 'GST RATE', datafield: 'grate', width: '10%' },
+      { text: 'DISCOUNT', datafield: 'disc', width: '10%' },
+      { text: 'DIS. AMOUNT', datafield: 'discamt', align: 'right', aggregates: ['sum'], width: '12%' },
       { text: 'AMOUNT', datafield: 'total', align: 'right', aggregates: ['sum'], width: '10%' },
       { text: 'type', datafield: 'type', hidden: true },
       { text: 'bno', datafield: 'bno', hidden: true },
@@ -246,11 +301,19 @@ export class PurchaseComponent implements OnInit {
   open_del_dialog() {
     let selectedrowindex = this.myGrid.getselectedrowindex();
     let id = this.myGrid.getrowid(selectedrowindex);
+    let id1 = this.myGrid.getrowdata(selectedrowindex);
     if (selectedrowindex > -1) {
       this.xy.splice(id, 1);
+      this.add_pmt_form.controls['gtot'].setValue(parseFloat(this.add_pmt_form.controls['gtot'].value) - parseFloat(id1.total));
+          this.add_pmt_form.controls['disc'].setValue(parseFloat(this.add_pmt_form.controls['disc'].value) - parseFloat(id1.discamt));
+          this.add_pmt_form.controls['cgst'].setValue(parseFloat(this.add_pmt_form.controls['cgst'].value) - parseFloat(id1.cgst));
+          this.add_pmt_form.controls['sgst'].setValue(parseFloat(this.add_pmt_form.controls['sgst'].value) - parseFloat(id1.sgst));
+          this.add_pmt_form.controls['igst'].setValue(parseFloat(this.add_pmt_form.controls['igst'].value)- parseFloat(id1.igst));
+          this.add_pmt_form.controls['ntot'].setValue(parseFloat(this.add_pmt_form.controls['gtot'].value) + parseFloat(this.add_pmt_form.controls['igst'].value) - parseFloat(this.add_pmt_form.controls['disc'].value));
       this.source.localdata = this.xy;
       this.myGrid.showloadelement();
       this.myGrid.updatebounddata();
+      document.getElementById("src").focus();
     }else{
       alert("Please select a Data first!");
     }
@@ -262,5 +325,30 @@ export class PurchaseComponent implements OnInit {
         console.log(res);
       })
     });
+    this.purchaseservice.add_bill(this.add_pmt_form.value).subscribe(res => {
+      alert(JSON.stringify(res));
+    })
+  }
+
+  onKeyDownEvent(event: any){
+    console.log(event.target.value);
+    if(event.keyCode === 13){
+      if($("#gstin").val().length > 0){
+        $("#src").focus();
+      }else{
+        $("#gstin").focus();
+      }
+    }
+  }
+
+  onKeyDownsrc(event: any){
+    console.log(event.target.value);
+    if(event.keyCode === 13){
+      event.preventDefault();
+      this.open_edt_Dialog()
+    }else if(event.ctrlKey && (event.keyCode === 73 || event.keyCode === 105)){
+      event.preventDefault();
+      this.openDialog();
+    }
   }
 }
