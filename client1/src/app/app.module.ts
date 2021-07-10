@@ -47,6 +47,7 @@ import { PurchaseComponent } from './pages/bills/purchase/purchase.component';
 import { AddItemComponent } from './pages/bills/purchase/add-item/add-item.component';
 import { EdtItemComponent } from './pages/bills/purchase/edt-item/edt-item.component';
 import { ListBillComponent } from './pages/bills/purchase/list-bill/list-bill.component';
+import { MentryComponent } from './pages/bills/purchase/mentry/mentry.component';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { ListBillComponent } from './pages/bills/purchase/list-bill/list-bill.co
     PurchaseComponent,
     AddItemComponent,
     EdtItemComponent,
-    ListBillComponent
+    ListBillComponent,
+    MentryComponent
   ],
   imports: [
     BrowserModule,

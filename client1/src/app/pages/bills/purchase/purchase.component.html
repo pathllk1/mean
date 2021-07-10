@@ -129,12 +129,17 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2">
+                            <td>
                                 <mat-form-field>
                                     <input matInput type="number" step="0.01" placeholder="NET TOTAL"
                                         formControlName="ntot">
 
                                 </mat-form-field>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary" (click)="addButtonClick()">  
+                                    Add Other Details  
+                                </button> 
                             </td>
                         </tr>
                     </table>

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -42,6 +42,7 @@ export class PurchaseComponent implements OnInit {
   bils: any = [];
   private subs = new Subscription();
   options: autos[] = [];
+  others: FormArray;
   filteredJSONDataOptions_supply: Observable<any[]>;
   constructor(public fb: FormBuilder,
     private tokenStorageService: TokenStorageService,
@@ -220,6 +221,18 @@ export class PurchaseComponent implements OnInit {
     }
   }
 
+  addOtherfield(): FormGroup {  
+    return this.fb.group({  
+      extype: ['', Validators.required],  
+      extamt : [0.00, Validators.required],  
+      extgst: [0.00, Validators.required]  
+    });  
+  } 
+  
+  addButtonClick(): void {  
+    (<FormArray>this.add_pmt_form.get('other')).push(this.addOtherfield());  
+  } 
+
   add_pmt_sru() {
     this.add_pmt_form = this.fb.group({
       bno: ['', [Validators.required]],
@@ -236,7 +249,8 @@ export class PurchaseComponent implements OnInit {
       firm: [this.tokenStorageService.getUser().firm],
       igst: [0.00, [Validators.required]],
       rof: [0.00, [Validators.required]],
-      ntot: [0.00, [Validators.required]]
+      ntot: [0.00, [Validators.required]],
+      other: this.fb.array([ this.addOtherfield()])
     })
   }
 

@@ -752,7 +752,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const _c0 = ["myGrid"];
 function PurchaseComponent_mat_option_39_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](0, "mat-option", 36);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](0, "mat-option", 37);
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 } if (rf & 2) {
@@ -987,6 +987,16 @@ class PurchaseComponent {
             alert("Please select a Data first!");
         }
     }
+    addOtherfield() {
+        return this.fb.group({
+            extype: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].required],
+            extamt: [0.00, _angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].required],
+            extgst: [0.00, _angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].required]
+        });
+    }
+    addButtonClick() {
+        this.add_pmt_form.get('other').push(this.addOtherfield());
+    }
     add_pmt_sru() {
         this.add_pmt_form = this.fb.group({
             bno: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].required]],
@@ -1003,7 +1013,8 @@ class PurchaseComponent {
             firm: [this.tokenStorageService.getUser().firm],
             igst: [0.00, [_angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].required]],
             rof: [0.00, [_angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].required]],
-            ntot: [0.00, [_angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].required]]
+            ntot: [0.00, [_angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].required]],
+            other: this.fb.array([this.addOtherfield()])
         });
     }
     createButtonsContainers(statusbar) {
@@ -1069,7 +1080,7 @@ PurchaseComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdefine
     } if (rf & 2) {
         let _t;
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵloadQuery"]()) && (ctx.myGrid = _t.first);
-    } }, decls: 82, vars: 21, consts: [["id", "tbar"], [2, "overflow", "hidden", "position", "relative"], ["mat-icon-button", "", "id", "add_dlg1", 3, "click"], [2, "color", "green"], ["mat-icon-button", "", "id", "edt_dlg1", 3, "click"], [2, "color", "yellow"], ["mat-icon-button", "", "id", "del_dlg1", 3, "click"], [2, "color", "red"], ["mat-icon-button", "", "id", "save_dlg", 3, "disabled", "click"], [2, "color", "rgb(135, 240, 15)"], ["id", "src", "type", "search", 2, "border-color", "greenyellow", 3, "keydown"], [2, "width", "455px"], ["novalidate", "", 3, "formGroup"], ["f", "ngForm"], ["matInput", "", "placeholder", "BILL NO", "formControlName", "bno", 1, "full-width"], ["matInput", "", "type", "date", "placeholder", "BILL DATE", "formControlName", "bdate", 1, "full-width"], ["colspan", "2"], [1, "full-width"], ["matInput", "", "placeholder", "SUPPLIER", "formControlName", "supply", "id", "supply", 3, "matAutocomplete", "blur"], ["autoActiveFirstOption", ""], ["auto_supply", "matAutocomplete"], [3, "value", 4, "ngFor", "ngForOf"], ["matInput", "", "placeholder", "ADDRESS", "formControlName", "addr", 3, "keydown"], ["matInput", "", "placeholder", "GSTIN", "formControlName", "gstin", "id", "gstin"], ["matInput", "", "type", "text", "placeholder", "STATE", "formControlName", "state", 3, "keydown"], ["matInput", "", "type", "number", "step", "0.01", "placeholder", "GROSS TOTAL", "formControlName", "gtot"], ["matInput", "", "type", "number", "step", "0.01", "placeholder", "DISCOUNT", "formControlName", "disc"], ["matInput", "", "type", "number", "step", "0.01", "placeholder", "CGST", "formControlName", "cgst"], ["matInput", "", "type", "number", "step", "0.01", "placeholder", "SGST", "formControlName", "sgst"], ["matInput", "", "type", "number", "step", "0.01", "placeholder", "IGST", "formControlName", "igst"], ["matInput", "", "type", "number", "step", "0.01", "placeholder", "ROUND OFF", "formControlName", "rof"], ["matInput", "", "type", "number", "step", "0.01", "placeholder", "NET TOTAL", "formControlName", "ntot"], [2, "width", "845px"], [1, "mat-elevation-z8"], [3, "width", "height", "source", "columns", "sortable", "altrows", "enabletooltips", "editable", "theme", "filtermode", "filterable", "showtoolbar", "rendertoolbar", "showstatusbar", "showaggregates"], ["myGrid", ""], [3, "value"]], template: function PurchaseComponent_Template(rf, ctx) { if (rf & 1) {
+    } }, decls: 85, vars: 21, consts: [["id", "tbar"], [2, "overflow", "hidden", "position", "relative"], ["mat-icon-button", "", "id", "add_dlg1", 3, "click"], [2, "color", "green"], ["mat-icon-button", "", "id", "edt_dlg1", 3, "click"], [2, "color", "yellow"], ["mat-icon-button", "", "id", "del_dlg1", 3, "click"], [2, "color", "red"], ["mat-icon-button", "", "id", "save_dlg", 3, "disabled", "click"], [2, "color", "rgb(135, 240, 15)"], ["id", "src", "type", "search", 2, "border-color", "greenyellow", 3, "keydown"], [2, "width", "455px"], ["novalidate", "", 3, "formGroup"], ["f", "ngForm"], ["matInput", "", "placeholder", "BILL NO", "formControlName", "bno", 1, "full-width"], ["matInput", "", "type", "date", "placeholder", "BILL DATE", "formControlName", "bdate", 1, "full-width"], ["colspan", "2"], [1, "full-width"], ["matInput", "", "placeholder", "SUPPLIER", "formControlName", "supply", "id", "supply", 3, "matAutocomplete", "blur"], ["autoActiveFirstOption", ""], ["auto_supply", "matAutocomplete"], [3, "value", 4, "ngFor", "ngForOf"], ["matInput", "", "placeholder", "ADDRESS", "formControlName", "addr", 3, "keydown"], ["matInput", "", "placeholder", "GSTIN", "formControlName", "gstin", "id", "gstin"], ["matInput", "", "type", "text", "placeholder", "STATE", "formControlName", "state", 3, "keydown"], ["matInput", "", "type", "number", "step", "0.01", "placeholder", "GROSS TOTAL", "formControlName", "gtot"], ["matInput", "", "type", "number", "step", "0.01", "placeholder", "DISCOUNT", "formControlName", "disc"], ["matInput", "", "type", "number", "step", "0.01", "placeholder", "CGST", "formControlName", "cgst"], ["matInput", "", "type", "number", "step", "0.01", "placeholder", "SGST", "formControlName", "sgst"], ["matInput", "", "type", "number", "step", "0.01", "placeholder", "IGST", "formControlName", "igst"], ["matInput", "", "type", "number", "step", "0.01", "placeholder", "ROUND OFF", "formControlName", "rof"], ["matInput", "", "type", "number", "step", "0.01", "placeholder", "NET TOTAL", "formControlName", "ntot"], ["type", "button", 1, "btn", "btn-primary", 3, "click"], [2, "width", "845px"], [1, "mat-elevation-z8"], [3, "width", "height", "source", "columns", "sortable", "altrows", "enabletooltips", "editable", "theme", "filtermode", "filterable", "showtoolbar", "rendertoolbar", "showstatusbar", "showaggregates"], ["myGrid", ""], [3, "value"]], template: function PurchaseComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](0, "table", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](1, "tr");
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](2, "td");
@@ -1201,19 +1212,25 @@ PurchaseComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdefine
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](74, "tr");
-        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](75, "td", 16);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](75, "td");
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](76, "mat-form-field");
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelement"](77, "input", 31);
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](78, "td");
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](79, "button", 32);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function PurchaseComponent_Template_button_click_79_listener() { return ctx.addButtonClick(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](80, " Add Other Details ");
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](78, "td", 32);
-        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](79, "mat-card", 33);
-        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelement"](80, "jqxGrid", 34, 35);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](81, "td", 33);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](82, "mat-card", 34);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelement"](83, "jqxGrid", 35, 36);
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
@@ -1228,7 +1245,7 @@ PurchaseComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdefine
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("matAutocomplete", _r1);
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](3);
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("ngForOf", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](40, 19, ctx.filteredJSONDataOptions_supply));
-        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](44);
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("width", "845px")("height", "487px")("source", ctx.dataAdapter)("columns", ctx.columns)("sortable", true)("altrows", true)("enabletooltips", true)("editable", false)("theme", "ui-redmond")("filtermode", "excel")("filterable", true)("showtoolbar", true)("rendertoolbar", ctx.createButtonsContainers)("showstatusbar", true)("showaggregates", true);
     } }, directives: [_angular_material_button__WEBPACK_IMPORTED_MODULE_10__["MatButton"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_11__["MatIcon"], _angular_material_card__WEBPACK_IMPORTED_MODULE_12__["MatCard"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["ɵangular_packages_forms_forms_ba"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormGroupDirective"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_13__["MatFormField"], _angular_material_input__WEBPACK_IMPORTED_MODULE_14__["MatInput"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControlName"], _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_15__["MatAutocompleteTrigger"], _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_15__["MatAutocomplete"], _angular_common__WEBPACK_IMPORTED_MODULE_16__["NgForOf"], _angular_material_divider__WEBPACK_IMPORTED_MODULE_17__["MatDivider"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["NumberValueAccessor"], jqwidgets_ng_jqxgrid__WEBPACK_IMPORTED_MODULE_18__["jqxGridComponent"], _angular_material_core__WEBPACK_IMPORTED_MODULE_19__["MatOption"]], pipes: [_angular_common__WEBPACK_IMPORTED_MODULE_16__["AsyncPipe"]], styles: ["mat-form-field[_ngcontent-%COMP%] {\r\n    display:block;\r\n    margin-left: 5px;\r\n  }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInB1cmNoYXNlLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IjtFQUNFO0lBQ0UsYUFBYTtJQUNiLGdCQUFnQjtFQUNsQiIsImZpbGUiOiJwdXJjaGFzZS5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiXHJcbiAgbWF0LWZvcm0tZmllbGQge1xyXG4gICAgZGlzcGxheTpibG9jaztcclxuICAgIG1hcmdpbi1sZWZ0OiA1cHg7XHJcbiAgfSJdfQ== */"] });
 
