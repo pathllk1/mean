@@ -20,7 +20,7 @@ import About from '../About';
 import Login from '../Login';
 
 import AuthService from "../../services/auth.service";
-import Exp from "../exp/exp";
+import Exp from "../exp/Exp";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
