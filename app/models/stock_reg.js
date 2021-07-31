@@ -6,6 +6,8 @@ const STOCK_REGSchema = new mongoose.Schema({
     bdate: {type: Date},
     supply: {type: String},
     item: {type: String},
+pno: {type: String},
+oem: {type: String},
     hsn: {type: String},
     qty: {type: Number},
     qtyh: {type: Number},

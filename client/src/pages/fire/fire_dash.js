@@ -1,10 +1,7 @@
-
 import { React, useState, useEffect } from "react";
 import { Grid, Paper, TextField, Typography, makeStyles, Button, Avatar, Snackbar } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import MuiAlert from '@material-ui/lab/Alert';
-
-import AuthService from "../services/auth.service";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -36,9 +33,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-
-
-const Login = () => {
+const Fire_dash = () => {
     const classes = useStyles();
     const [username, setusername] = useState('');
     const [password, setpassword] = useState('');
@@ -46,53 +41,14 @@ const Login = () => {
     const [currentUser, setcurrentUser] = useState(undefined);
     const [open, setOpen] = useState(false);
 
-    const handleClick = () => {
-        setOpen(true);
-    };
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setOpen(false);
-    };
-
-    useEffect(() => {
-        const user = AuthService.getCurrentUser();
-        if (user) {
-            setcurrentUser(user);
-        }
-    });
-
-
     function onSubmit(e) {
         e.preventDefault()//blocks the postback event of the page
-        AuthService.login(username, password).then(
-            () => {
-                window.location.reload();
-            },
-            error => {
-                const resMessage =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-
-                setmessage(resMessage);
-                handleClick();
-            }
-        );
+        console.log("button submitted");
     }
+
     return (
-        <Grid>
-            {currentUser ? (
-                <Paper elevation={10} style={{ padding: 20, margin: '20px auto', width: 380, height: '10vh' }}>
-                    <h3 align='center'>Logged in as {currentUser.username}</h3>
-                </Paper>
-            ) : (
-                <Paper elevation={10} className={classes.paperStyle}>
+        <div>
+            <Paper elevation={10} className={classes.paperStyle}>
                     <Grid align='center'>
                         <Avatar className={classes.avatar}>
                             <LockOutlinedIcon />
@@ -137,15 +93,8 @@ const Login = () => {
                         </form>
                     </Grid>
                 </Paper>
-            )}
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="error">
-                    {message}
-        </Alert>
-            </Snackbar>
-        </Grid>
-
+        </div>
     )
 }
 
-export default Login
+export default Fire_dash;

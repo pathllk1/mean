@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+const opts = { toJSON: { virtuals: true } };
 const EXPSchema = new mongoose.Schema({
     rid: {type: String},
     dt: {type: Date},
@@ -13,7 +14,7 @@ const EXPSchema = new mongoose.Schema({
     usern: {type: String},
     type: {type: String},
     firm: {type: String}
-});
+}, opts);
 
 const EXP = mongoose.model('EXP', EXPSchema);
 

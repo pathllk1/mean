@@ -1,6 +1,9 @@
 import { React, useState, useEffect } from 'react'
-import JqxGrid, { jqx } from '../../assets/jqwidgets-react/react_jqxgrid';
 import { Grid, Paper, TextField, Typography, makeStyles, Button, Avatar, Snackbar } from '@material-ui/core';
+import { DataGrid } from '@material-ui/data-grid';
+import { XGrid } from '@material-ui/x-grid';
+import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 const useStyles = makeStyles((theme) => ({
     paperStyle: {
@@ -19,28 +22,31 @@ const useStyles = makeStyles((theme) => ({
 
 const Exp = () => {
     const classes = useStyles();
+    const [rowData, setRowData] = useState([]);
+    useEffect(() => {
+        axios.get('/.netlify/functions/api/exp/list_all', { headers: authHeader() })
+            .then((response) => {
+                console.log(response.data);
+                setRowData(response.data);
+            })
+    }, []);
 
-    const source = {
-        datafields: [
-            { name: 'username', type: 'string' },
-            { name: 'email', type: 'string' }
-        ],
-        datatype: 'json',
-        url: '/.netlify/functions/api/admin/get_all_user'
-    };
+    const columns = [
+        { field: "id", headerName: "id", width: 120},
+        { field: "dt", headerName: "DATE", width: 250 },
+        { field: "pto", headerName: "PAID TO", width: 450 },
+        { field: "head", headerName: "HEAD", width: 300 },
+    ];
 
-    const dataAdapter = new jqx.dataAdapter(source);
     return (
-        <div>
-            <JqxGrid
-                        width={'1050px'} height={"100%"} columns={
-                            [
-                                { text: 'User Name', datafield: 'username', width: 250 },
-                                { text: 'Email', datafield: 'email', cellsalign: 'right', align: 'right' }
-                            ]
-                        }
-                        source={dataAdapter}
-                    />
+        <div style={{ height: 550, width: '100%' }}>
+            <XGrid 
+            pagination pageSize={100000}
+            columns={columns}
+            rows={rowData}
+            id="id"
+            density="compact"
+             />
         </div>
     )
 }

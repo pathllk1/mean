@@ -4,45 +4,67 @@ const Excel = require('exceljs');
 const User = require("../models/user.model");
 const Lic = require("../models/LIC");
 const Contact = require("../models/contacts");
+const fs = require('fs');
 
 exports.list = (req, res) => {
-    Exp.find(null, null, {sort: {'dt' : -1}}, (err, docs) => {
-        if (!err) {
-            res.json(docs);
-        } else {
-            console.log('Error in retrieving Exp list: ' + err);
-        }
-    });
+    try {
+        Exp.find(null, null, { sort: { 'dt': -1 } }, (err, docs) => {
+            if (!err) {
+                res.json(docs);
+            } else {
+                console.log('Error in retrieving Exp list: ' + err);
+            }
+        });
+    }
+    catch (er) {
+        console.log(er)
+    }
 }
 
 exports.list_lic = (req, res) => {
-    Lic.find(null, null, {sort: {'edate' : -1}}, (err, docs) => {
-        if (!err) {
-            res.json(docs);
-        } else {
-            console.log('Error in retrieving Exp list: ' + err);
-        }
-    });
+    try {
+        Lic.find(null, null, { sort: { 'edate': -1 } }, (err, docs) => {
+            if (!err) {
+                res.json(docs);
+            } else {
+                console.log('Error in retrieving Exp list: ' + err);
+            }
+        });
+    }
+    catch (er) {
+        console.log(er)
+    }
 }
 
 exports.list_contact = (req, res) => {
-    Contact.find((err, docs) => {
-        if (!err) {
-            res.json(docs);
-        } else {
-            console.log('Error in retrieving Contact list: ' + err);
-        }
-    });
+    try {
+        Contact.find((err, docs) => {
+            if (!err) {
+                res.json(docs);
+            } else {
+                console.log('Error in retrieving Contact list: ' + err);
+            }
+        });
+    }
+    catch (er) {
+        console.log(er)
+    }
+
 }
 
 exports.user_list = (req, res) => {
-    Users.find((err, docs) => {
-        if (!err) {
-            res.json(docs);
-        } else {
-            console.log('Error in retrieving User list: ' + err);
-        }
-    });
+    try {
+        Users.find((err, docs) => {
+            if (!err) {
+                res.json(docs);
+            } else {
+                console.log('Error in retrieving User list: ' + err);
+            }
+        });
+    }
+    catch (er) {
+        console.log(er)
+    }
 }
 
 exports.del_all = (req, res) => {
@@ -59,12 +81,12 @@ exports.del_all = (req, res) => {
 exports.send_sms = (req, res) => {
     const client = require('twilio')('AC4d318cf516b959acb8319b214a85cdb1', 'b360f8e331ade86b4482d8a4aab88d99');
     client.messages
-  .create({
-     body: req.body.msg,
-     from: req.body.frm,
-     to: req.body.to
-   })
-  .then(message => console.log(message.sid));
+        .create({
+            body: req.body.msg,
+            from: req.body.frm,
+            to: req.body.to
+        })
+        .then(message => console.log(message.sid));
 }
 
 exports.add_exp = (req, res) => {
@@ -166,11 +188,11 @@ exports.crt_excel = (req, res) => {
 
         let user_worksheet = workbook.addWorksheet('USER');
         user_worksheet.columns = [
-            {header: 'ID', key: '_id'},
-            {header: 'USER NAME', key: 'username'},
-            {header: 'EMAIL ID', key: 'email'},
-            {header: 'ROLES', key: 'roles'},
-            {header: 'FIRM NAME', key: 'firm'}
+            { header: 'ID', key: '_id' },
+            { header: 'USER NAME', key: 'username' },
+            { header: 'EMAIL ID', key: 'email' },
+            { header: 'ROLES', key: 'roles' },
+            { header: 'FIRM NAME', key: 'firm' }
         ]
 
         user_worksheet.columns.forEach(column => {
@@ -183,16 +205,16 @@ exports.crt_excel = (req, res) => {
 
         let lic_worksheet = workbook.addWorksheet('LIC');
         lic_worksheet.columns = [
-            {header: 'ID', key: '_id'},
-            {header: 'DOCUMENT NAME', key: 'doc_name'},
-            {header: 'REFERENCE NO', key: 'ref_no'},
-            {header: 'START DATE', key: 'sdate'},
-            {header: 'VALID TILL', key: 'edate'},
-            {header: 'VALUE', key: 'val'},
-            {header: 'DESCRIPTION', key: 'descr'},
-            {header: 'GROUP', key: 'grp'},
-            {header: 'USER NAME', key: 'usern'},
-            {header: 'FIRM NAME', key: 'firm'}
+            { header: 'ID', key: '_id' },
+            { header: 'DOCUMENT NAME', key: 'doc_name' },
+            { header: 'REFERENCE NO', key: 'ref_no' },
+            { header: 'START DATE', key: 'sdate' },
+            { header: 'VALID TILL', key: 'edate' },
+            { header: 'VALUE', key: 'val' },
+            { header: 'DESCRIPTION', key: 'descr' },
+            { header: 'GROUP', key: 'grp' },
+            { header: 'USER NAME', key: 'usern' },
+            { header: 'FIRM NAME', key: 'firm' }
         ]
         lic_worksheet.columns.forEach(column => {
             column.width = column.header.length < 15 ? 15 : column.header.length
@@ -212,4 +234,56 @@ exports.crt_excel = (req, res) => {
             res.status(200).end();
         });
     });
+}
+
+exports.read_exl = async (req, res) => {
+    try {
+        const excelfile = "tst.xlsx";
+        var workbook = new Excel.Workbook();
+        const exp = new Exp();
+        const docs = [];
+        var x = 0;
+        await workbook.xlsx.readFile(excelfile)
+            .then(async function () {
+                var worksheet = workbook.getWorksheet('Sheet1');
+                worksheet.eachRow({ includeEmpty: true }, function (row, rowNumber) {
+                    docs.push({
+                        rid: row.values[1],
+                        dt: row.values[2],
+                        mode: row.values[3],
+                        pto: row.values[4],
+                        head: row.values[5],
+                        grp: row.values[6],
+                        amt: row.values[7],
+                        pamt: row.values[8],
+                        purp: row.values[9],
+                        usern: row.values[10],
+                        type: row.values[11],
+                        firm: row.values[12],
+                    })
+                    x++;
+                    console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
+                });
+            });
+        await Exp.insertMany(docs);
+        console.log(x);
+    }
+    catch (er) {
+        console.log(er)
+    }
+}
+
+exports.list_all_exp = (req, res) => {
+    try {
+        Exp.find((err, docs) => {
+            if (!err) {
+                res.json(docs);
+            } else {
+                console.log('Error in retrieving Exp list: ' + err);
+            }
+        });
+    }
+    catch (er) {
+        console.log(er)
+    }
 }

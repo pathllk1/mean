@@ -21,6 +21,7 @@ import Login from '../Login';
 
 import AuthService from "../../services/auth.service";
 import Exp from "../exp/Exp";
+import Fire_dash from "../fire/fire_dash";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -87,6 +88,11 @@ const NavAppBar = () => {
                                 <Button color='inherit' component={Link} to="/exp">Expnenses</Button>
                             </ListItem>
                         )}
+                        {currentUser && (
+                            <ListItem button>
+                                <Button color='inherit' component={Link} to="/fire">FireBase</Button>
+                            </ListItem>
+                        )}
                     </List>
                 </Drawer>
                 <AppBar position="static" color="secondary">
@@ -116,6 +122,7 @@ const NavAppBar = () => {
                         <Route path="/about" component={About} />
                         <Route path="/login" component={Login} />
                         <Route path="/exp" component={Exp} />
+                        <Route path="/fire" component={Fire_dash} />
                     </Switch>
                 </main>
             </div>

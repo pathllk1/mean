@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const STOCKSchema = new mongoose.Schema({
     item: {type: String},
+pno: {type: String},
+oem: {type: String},
     hsn: {type: String},
     qty: {type: Number},
     uom: {type: String},

@@ -3,81 +3,116 @@ const STOCK = require("../models/stock");
 const STOCK_REG = require("../models/stock_reg");
 
 exports.list = (req, res) => {
-    STOCK.find((err, docs) => {
-        if (!err) {
-            res.json(docs)
-        } else {
-            console.log('Error in retrieving STOCK list: ' + err);
-        }
-    });
+    try {
+        STOCK.find((err, docs) => {
+            if (!err) {
+                res.json(docs)
+            } else {
+                console.log('Error in retrieving STOCK list: ' + err);
+            }
+        });
+    }
+    catch (er) {
+        console.log(er)
+    }
 }
 
 exports.list_bill = (req, res) => {
-    BILLS.find((err, docs) => {
-        if (!err) {
-            res.json(docs)
-        } else {
-            console.log('Error in retrieving BILL list: ' + err);
-        }
-    });
+    try {
+        BILLS.find((err, docs) => {
+            if (!err) {
+                res.json(docs)
+            } else {
+                console.log('Error in retrieving BILL list: ' + err);
+            }
+        });
+    }
+    catch (er) {
+        console.log(er)
+    }
 }
 
 exports.list_reg = (req, res) => {
-    STOCK_REG.find((err, docs) => {
-        if (!err) {
-            res.json(docs)
-        } else {
-            console.log('Error in retrieving STOCK list: ' + err);
-        }
-    });
+    try {
+        STOCK_REG.find((err, docs) => {
+            if (!err) {
+                res.json(docs)
+            } else {
+                console.log('Error in retrieving STOCK list: ' + err);
+            }
+        });
+    }
+    catch (er) {
+        console.log(er)
+    }
 }
 
 exports.get_item = (req, res) => {
-    STOCK_REG.findOne({ '_id': req.body.id }, (err, docs) => {
-        if (!err) {
-            res.json(docs)
-        } else {
-            console.log('Error in retrieving STOCK item: ' + err);
-        }
-    });
+    try {
+        STOCK_REG.findOne({ '_id': req.body.id }, (err, docs) => {
+            if (!err) {
+                res.json(docs)
+            } else {
+                console.log('Error in retrieving STOCK item: ' + err);
+            }
+        });
+    }
+    catch (er) {
+        console.log(er)
+    }
 }
 
 exports.get_item_by_name = (req, res) => {
-    STOCK.findOne({ 'item': req.body.item }, (err, docs) => {
-        if (!err) {
-            res.json(docs)
-        } else {
-            console.log('Error in retrieving STOCK item: ' + err);
-        }
-    })
+    try {
+        STOCK.findOne({ 'item': req.body.item }, (err, docs) => {
+            if (!err) {
+                res.json(docs)
+            } else {
+                console.log('Error in retrieving STOCK item: ' + err);
+            }
+        })
+    }
+    catch (er) {
+        console.log(er)
+    }
 }
 
 exports.save = (req, res) => {
-    if (!req.body.id) {
-        insertRecord(req, res);
-    } else {
-        updateRecord(req, res);
+    try {
+        if (!req.body.id) {
+            insertRecord(req, res);
+        } else {
+            updateRecord(req, res);
+        }
+    }
+    catch (er) {
+        console.log(er)
     }
 }
 
 exports.save_bill = (req, res) => {
-    const p = new BILLS(req.body);
-    p.save
-    p.save((err, doc) => {
-        if (!err)
-            {
+    try {
+        const p = new BILLS(req.body);
+        p.save((err, doc) => {
+            if (!err) {
                 res.send("Data Saved Successfully");
             }
-        else {
-            res.send("Error in Data Saving: " + err);
-        }
-    });
+            else {
+                res.send("Error in Data Saving: " + err);
+            }
+        });
+    }
+    catch (er) {
+        console.log(er)
+    }
 }
 
 function insertRecord(req, res) {
     STOCK.updateOne({ item: req.body.item },
         {
             item: req.body.item,
+            pno: req.body.pno,
+            oem: req.body.oem,
             hsn: req.body.hsn,
             qty: req.body.qtyh,
             uom: req.body.uom,
@@ -88,32 +123,11 @@ function insertRecord(req, res) {
             firm: req.body.firm
         }, { upsert: true }, (err, doc) => {
             if (!err) {
-                const p = new STOCK_REG();
-                p.type = req.body.type;
-                p.bno = req.body.bno;
-                p.bdate = req.body.bdate;
-                p.supply = req.body.supply;
-                p.item = req.body.item;
-                p.hsn = req.body.hsn;
-                p.qty = req.body.qty;
-                p.qtyh = req.body.qtyh;
-                p.uom = req.body.uom;
-                p.rate = req.body.rate;
-                p.grate = req.body.grate;
-                p.disc = req.body.disc;
-                p.discamt = req.body.discamt;
-                p.cgst = req.body.cgst;
-                p.sgst = req.body.sgst;
-                p.igst = req.body.igst;
-                p.total = req.body.total;
-                p.project = req.body.project;
-                p.user = req.body.user;
-                p.firm = req.body.firm;
+                const p = new STOCK_REG(req.body);
                 p.save((err, doc) => {
-                    if (!err)
-                        {
-                            res.send("Data Saved Successfully");
-                        }
+                    if (!err) {
+                        res.send("Data Saved Successfully");
+                    }
                     else {
                         res.send("Error in Data Saving: " + err);
                     }
@@ -131,6 +145,8 @@ function updateRecord(req, res) {
     STOCK.updateOne({ item: req.body.item },
         {
             item: req.body.item,
+            pno: req.body.pno,
+            oem: req.body.oem,
             hsn: req.body.hsn,
             qty: req.body.qtyh,
             uom: req.body.uom,
@@ -152,6 +168,8 @@ function updateRecord(req, res) {
             p1.bdate = req.body.bdate;
             p1.supply = req.body.supply;
             p1.item = req.body.item;
+            p1.pno = req.body.pno;
+            p1.oem = req.body.oem;
             p1.hsn = req.body.hsn;
             p1.qty = req.body.qty;
             p1.qtyh = req.body.qtyh;
