@@ -5,6 +5,7 @@ const Role = db.role;
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+const logger = require("../config/logger");
 
 exports.signup = (req, res) => {
   const user = new User({
@@ -107,5 +108,6 @@ exports.signin = (req, res) => {
         firm: user.firm,
         accessToken: token
       });
+      logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
     });
 };

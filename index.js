@@ -4,6 +4,9 @@ const serverless = require("serverless-http");
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
 const dbConfig = require("./app/config/db.config");
+var fs = require('fs');
+const logger = require("./app/config/logger");
+
 
 
 const app = express();
@@ -13,7 +16,9 @@ app.use(bodyParser.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(morgan('common'));
+
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+app.use(morgan(':remote-addr :remote-user :method [:date[clf]] :url HTTP/:http-version :status :res[content-length] - :response-time ms', { stream: accessLogStream }));
 
 const db = require("./app/models");
 const Role = db.role;
@@ -24,6 +29,7 @@ db.mongoose
     useUnifiedTopology: true
   })
   .then(() => {
+    
     console.log("Successfully connect to MongoDB.");
     initial();
   })
@@ -43,6 +49,7 @@ require("./app/routes/purc.routes")(app);
 require("./app/routes/admin.routes")(app);
 require("./app/routes/lic.routes")(app);
 require("./app/routes/contact.route")(app);
+require("./app/routes/gen.route")(app);
 
 app.use(express.static(path.join(__dirname, './dist')));
 app.get('*', (req, res) => {

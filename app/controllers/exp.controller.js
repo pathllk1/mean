@@ -1,3 +1,4 @@
+const logger = require("../config/logger");
 const Exp = require("../models/EXP");
 const HEAD_GRP = require("../models/HEAD_GRP");
 
@@ -6,6 +7,7 @@ exports.list = (req, res) => {
         Exp.find({'firm': req.body.firm}, null , {sort: {'dt' : -1}} ,(err, docs) => {
             if (!err) {
                 res.json(docs);
+                logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
             } else {
                 console.log('Error in retrieving Exp list: ' + err);
             }
@@ -21,6 +23,7 @@ exports.list_all = (req, res) => {
         Exp.find((err, docs) => {
             if (!err) {
                 res.json(docs);
+                logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
             } else {
                 console.log('Error in retrieving Exp list: ' + err);
             }
@@ -36,6 +39,7 @@ exports.cash_book = (req, res) => {
         Exp.find({ 'mode': 'CASH', 'firm': req.body.usern }, null, {sort: {'dt' : -1}} ,(err, docs) => {
             if (!err) {
                 res.json(docs);
+                logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
             } else {
                 console.log('Error in retrieving Exp list: ' + err);
             }
@@ -51,6 +55,7 @@ exports.proj_report = (req, res) => {
         Exp.find({ 'head': req.body.head, 'firm': req.body.usern }, null, {sort: {'dt' : -1}} ,(err, docs) => {
             if (!err) {
                 res.json(docs);
+                logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
             } else {
                 console.log('Error in retrieving Exp list: ' + err);
             }
@@ -69,6 +74,7 @@ exports.get_head_grp = (req, res) => {
         } ,(err, docs) => {
             if (!err) {
                 res.json(docs);
+                logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
             } else {
                 console.log('Error in retrieving Exp list: ' + err);
             }
@@ -91,6 +97,7 @@ exports.fetch_all = (req, res) => {
         }, null, {sort: {'dt' : -1}}, (err, docs) => {
             if (!err) {
                 res.json(docs);
+                logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
             } else {
                 console.log('Error in retrieving Exp list: ' + err);
             }
@@ -110,6 +117,7 @@ exports.fetch_pto_head = (req, res) => {
         }, null, {sort: {'dt' : -1}}, (err, docs) => {
             if (!err) {
                 res.json(docs);
+                logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
             } else {
                 console.log('Error in retrieving Exp list: ' + err);
             }
@@ -132,6 +140,7 @@ exports.fetch_dt_pto = (req, res) => {
         }, null, {sort: {'dt' : -1}}, (err, docs) => {
             if (!err) {
                 res.json(docs);
+                logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
             } else {
                 console.log('Error in retrieving Exp list: ' + err);
             }
@@ -154,6 +163,7 @@ exports.fetch_dt_head = (req, res) => {
         }, null, {sort: {'dt' : -1}}, (err, docs) => {
             if (!err) {
                 res.json(docs);
+                logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
             } else {
                 console.log('Error in retrieving Exp list: ' + err);
             }
@@ -172,6 +182,7 @@ exports.fetch_pto = (req, res) => {
         }, null, {sort: {'dt' : -1}}, (err, docs) => {
             if (!err) {
                 res.json(docs);
+                logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
             } else {
                 console.log('Error in retrieving Exp list: ' + err);
             }
@@ -190,6 +201,7 @@ exports.fetch_head = (req, res) => {
         }, null, {sort: {'dt' : -1}}, (err, docs) => {
             if (!err) {
                 res.json(docs);
+                logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
             } else {
                 console.log('Error in retrieving Exp list: ' + err);
             }
@@ -211,6 +223,7 @@ exports.fetch_dt = (req, res) => {
         }, null, {sort: {'dt' : -1}}, (err, docs) => {
             if (!err) {
                 res.json(docs);
+                logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
             } else {
                 console.log('Error in retrieving Exp list: ' + err);
             }
@@ -286,8 +299,10 @@ exports.add_trf = (req, res) => {
     details1.type = req.body.type;
     details1.firm = req.body.firm;
     details1.save((err, doc) => {
-        if (!err)
+        if (!err){
             res.send(doc);
+            logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
+        }
         else {
             res.send(err);
         }
@@ -331,6 +346,7 @@ exports.update = (req, res) => {
                 details.firm = req.body.firm;
                 details.save().then(emp => {
                     res.json('Exp Updated Successfully');
+                    logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
                 })
                     .catch(err => {
                         res.status(400).send("Unable To Update Exp");
@@ -348,6 +364,7 @@ exports.del = (req, res) => {
         Exp.findByIdAndRemove({ _id: req.body.id }, function (err, employee) {
             if (err) res.json(err);
             else res.json('Exp Deleted Successfully');
+            logger.info(`${req.originalUrl} - ${req.method} - ${req.ip}`);
         });
     }
     catch(er){

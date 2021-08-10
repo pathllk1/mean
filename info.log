@@ -1,0 +1,32 @@
+{"message":"Successfully connect to MongoDB.","level":"info","timestamp":"2021-08-06T09:35:53.064Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:39:11.418Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:39:11.455Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:39:11.461Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:39:11.466Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:39:11.467Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:39:11.469Z"}
+{"message":{"firm":"ANJAN"},"level":"info","timestamp":"2021-08-06T09:39:11.963Z"}
+{"message":[{"_id":"60fff5b71bcc313e34c8cbe1","rid":"60fff5b71bcc313e34c8cbe1","dt":"2021-07-27T00:00:00.000Z","mode":"CASH","pto":"MANIK (TRD)","head":"TRD_08","grp":"SITE MISC","amt":1500,"pamt":1500,"purp":"FOR BORA PURCHASE","usern":"anjan","type":"PMT","firm":"ANJAN","__v":0,"id":"60fff5b71bcc313e34c8cbe1"}],"level":"info","timestamp":"2021-08-06T09:39:12.044Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:39:12.335Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:40:45.736Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:28.466Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:28.506Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:28.514Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:28.518Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:28.519Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:28.521Z"}
+{"message":{"firm":"ANJAN"},"level":"info","timestamp":"2021-08-06T09:43:29.051Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:29.070Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:29.074Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:29.075Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:29.079Z"}
+{"message":[{"_id":"60fff5b71bcc313e34c8cbe1","rid":"60fff5b71bcc313e34c8cbe1","dt":"2021-07-27T00:00:00.000Z","mode":"CASH","pto":"MANIK (TRD)","head":"TRD_08","grp":"SITE MISC","amt":1500,"pamt":1500,"purp":"FOR BORA PURCHASE","usern":"anjan","type":"PMT","firm":"ANJAN","__v":0,"id":"60fff5b71bcc313e34c8cbe1"}],"level":"info","timestamp":"2021-08-06T09:43:29.130Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:29.184Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:29.215Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:29.216Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:29.217Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:29.229Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:29.416Z"}
+{"message":{},"level":"info","timestamp":"2021-08-06T09:43:40.606Z"}
+{"message":"/.netlify/functions/api/exp/list - POST - ::1","level":"info","timestamp":"2021-08-06T10:13:45.560Z"}
+{"message":"/.netlify/functions/api/auth/signin - POST - ::1","level":"info","timestamp":"2021-08-06T10:23:05.086Z"}
